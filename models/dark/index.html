@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Currículo Editável</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --ink: #0d0d0d;
+      --paper: #f5f0e8;
+      --accent: #d4420a;
+      --accent2: #1a3a5c;
+      --mid: #6b6459;
+      --rule: #c8bfb0;
+    }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    body {
+      background: #d0ccc4;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--ink);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 40px 20px 80px;
+    }
+
+    /* ── EDIT HINT ── */
+    [contenteditable="true"]:hover {
+      outline: 1.5px dashed rgba(212, 66, 10, 0.45);
+      border-radius: 2px;
+      cursor: text;
+    }
+
+    [contenteditable="true"]:focus {
+      outline: 2px solid var(--accent);
+      border-radius: 2px;
+      background: rgba(212, 66, 10, 0.06);
+    }
+
+    /* ── PAGE ── */
+    .page {
+      width: 210mm;
+      height: 297mm;
+      background: var(--paper);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 80px rgba(0, 0, 0, 0.35);
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 68mm;
+      background: var(--accent2);
+      padding: 44px 24px 36px;
+      display: flex;
+      flex-direction: column;
+      z-index: 2;
+    }
+
+    .sidebar::after {
+      content: '';
+      position: absolute;
+      right: -18px;
+      top: 0;
+      bottom: 0;
+      width: 36px;
+      background: var(--accent2);
+      clip-path: polygon(0 0, 50% 0, 100% 50%, 50% 100%, 0 100%);
+      z-index: 3;
+    }
+
+    /* photo */
+    #photo-input {
+      display: none;
+    }
+
+    .photo-wrap {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      border: 3px solid var(--accent);
+      overflow: hidden;
+      margin-bottom: 18px;
+      flex-shrink: 0;
+      background: #2a4a6c;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .photo-hover {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      z-index: 5;
+    }
+
+    .photo-wrap:hover .photo-hover {
+      display: flex;
+    }
+
+    #photo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: none;
+    }
+
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 30px;
+      color: rgba(255, 255, 255, 0.4);
+      letter-spacing: 2px;
+    }
+
+    .sidebar-section {
+      margin-bottom: 20px;
+    }
+
+    .sidebar-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 7.5px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      margin-bottom: 7px;
+    }
+
+    .contact-icon {
+      font-size: 10px;
+      margin-top: 1px;
+      flex-shrink: 0;
+      color: var(--accent);
+    }
+
+    .contact-text {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.4;
+      font-weight: 300;
+      word-break: break-all;
+    }
+
+    .skill-row {
+      margin-bottom: 9px;
+    }
+
+    .skill-name {
+      font-size: 9.5px;
+      color: rgba(255, 255, 255, 0.88);
+      font-weight: 500;
+      margin-bottom: 3px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .skill-level-text {
+      font-size: 8.5px;
+      color: rgba(255, 255, 255, 0.4);
+      font-weight: 300;
+    }
+
+    .skill-track {
+      height: 3px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .skill-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #f07040);
+      border-radius: 2px;
+    }
+
+    /* skill bar click to change */
+    .skill-track {
+      cursor: pointer;
+      position: relative;
+    }
+
+    .skill-track:hover {
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    .lang-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 7px;
+    }
+
+    .lang-name {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.82);
+      font-weight: 300;
+    }
+
+    .lang-dots {
+      display: flex;
+      gap: 3px;
+      cursor: pointer;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .dot.filled {
+      background: var(--accent);
+    }
+
+    .software-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .sw-badge {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 3px;
+      padding: 2px 6px;
+      font-size: 8.5px;
+      color: rgba(255, 255, 255, 0.75);
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 0.3px;
+    }
+
+    /* ── MAIN ── */
+    .main {
+      margin-left: 68mm;
+      padding: 44px 28px 32px 42px;
+      position: relative;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .name-block {
+      margin-bottom: 4px;
+    }
+
+    .name-first {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10.5px;
+      font-weight: 300;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--mid);
+      display: block;
+      margin-bottom: 1px;
+    }
+
+    .name-last {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 54px;
+      line-height: 0.88;
+      color: var(--ink);
+      letter-spacing: 1px;
+      display: block;
+    }
+
+    .name-last .accent-word {
+      color: var(--accent);
+    }
+
+    .title-tag {
+      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .title-tag::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--accent);
+    }
+
+    .title-tag-text {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .objective {
+      font-size: 10.5px;
+      line-height: 1.6;
+      color: var(--mid);
+      font-weight: 300;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 18px;
+    }
+
+    .section {
+      margin-bottom: 16px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .section-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 7.5px;
+      color: var(--accent);
+      letter-spacing: 1px;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px;
+      letter-spacing: 2px;
+      color: var(--accent2);
+    }
+
+    .section-rule {
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    .exp-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0 10px;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--rule);
+      position: relative;
+    }
+
+    .exp-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .exp-item::before {
+      content: '';
+      position: absolute;
+      left: -18px;
+      top: 5px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .exp-company {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: 0.2px;
+    }
+
+    .exp-role {
+      font-size: 9.5px;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 5px;
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 0.3px;
+    }
+
+    .exp-date {
+      font-family: 'Space Mono', monospace;
+      font-size: 8.5px;
+      color: var(--mid);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .exp-bullets {
+      grid-column: 1 / -1;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .exp-bullets li {
+      font-size: 10px;
+      color: var(--mid);
+      line-height: 1.45;
+      font-weight: 300;
+      padding-left: 11px;
+      position: relative;
+    }
+
+    .exp-bullets li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 8px;
+      top: 1px;
+    }
+
+    .edu-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--rule);
+    }
+
+    .edu-row:last-child {
+      border-bottom: none;
+    }
+
+    .edu-name {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .edu-detail {
+      font-size: 9.5px;
+      color: var(--mid);
+      font-weight: 300;
+      margin-top: 1px;
+    }
+
+    .edu-tag {
+      background: var(--accent2);
+      color: #fff;
+      font-size: 8px;
+      font-family: 'Space Mono', monospace;
+      padding: 2px 7px;
+      border-radius: 2px;
+      white-space: nowrap;
+      align-self: center;
+    }
+
+    .edu-tag.orange {
+      background: var(--accent);
+    }
+
+    .info-strip {
+      margin-top: 14px;
+      padding: 10px 14px;
+      background: var(--accent2);
+      border-radius: 4px;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .info-icon {
+      font-size: 12px;
+    }
+
+    .info-text {
+      font-size: 9.5px;
+      color: rgba(255, 255, 255, 0.82);
+      font-weight: 300;
+    }
+
+    .portfolio-bar {
+      margin-top: 12px;
+      padding: 8px 14px;
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .portfolio-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 7.5px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    .portfolio-url {
+      font-size: 10px;
+      color: var(--accent);
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    /* ── TOOLBAR ── */
+    .toolbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--accent2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px 20px;
+      z-index: 100;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .toolbar-hint {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 1px;
+      margin-right: 10px;
+    }
+
+    .btn {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 1px;
+      padding: 7px 14px;
+      border-radius: 3px;
+      border: none;
+      cursor: pointer;
+      transition: opacity .15s;
+    }
+
+    .btn:hover {
+      opacity: 0.85;
+    }
+
+    .btn-print {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-save {
+      background: rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-reset {
+      background: transparent;
+      color: rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 8px;
+    }
+
+    .saved-toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #1a5c3a;
+      color: #fff;
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 1px;
+      padding: 8px 16px;
+      border-radius: 4px;
+      opacity: 0;
+      transition: opacity .3s;
+      z-index: 200;
+      pointer-events: none;
+    }
+
+    .saved-toast.show {
+      opacity: 1;
+    }
+
+    @media print {
+      body {
+        background: none;
+        padding: 0;
+      }
+
+      .page {
+        box-shadow: none;
+        width: 210mm;
+        height: 297mm;
+      }
+
+      .toolbar {
+        display: none;
+      }
+
+      .saved-toast {
+        display: none;
+      }
+
+      [contenteditable="true"]:hover,
+      [contenteditable="true"]:focus {
+        outline: none !important;
+        background: transparent !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="saved-toast" id="toast">✓ Salvo automaticamente</div>
+
+  <div class="page">
+    <aside class="sidebar">
+      <input type="file" id="photo-input" accept="image/*">
+      <div class="photo-wrap" onclick="document.getElementById('photo-input').click()" title="Clique para trocar a foto">
+        <div class="photo-hover">📷</div>
+        <img id="photo-img" src="" alt="Foto">
+        <div class="photo-placeholder" id="photo-placeholder">JV</div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">Contato</div>
+        <div class="contact-item">
+          <span class="contact-icon">📍</span>
+          <span class="contact-text" contenteditable="true" data-key="contact-address">Av. Roque Ferreira de Castro, 241</span>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">📱</span>
+          <span class="contact-text" contenteditable="true" data-key="contact-phone">(32) 99970-4544</span>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">✉</span>
+          <span class="contact-text" contenteditable="true" data-key="contact-email">joaovitor@email.com</span>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">🎨</span>
+          <span class="contact-text" contenteditable="true" data-key="contact-portfolio">behance.net/joovitorsilva25</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">Software</div>
+        <div class="software-grid" id="software-grid">
+          <span class="sw-badge" contenteditable="true" data-key="sw1">Photoshop</span>
+          <span class="sw-badge" contenteditable="true" data-key="sw2">After Effects</span>
+          <span class="sw-badge" contenteditable="true" data-key="sw3">Blender</span>
+          <span class="sw-badge" contenteditable="true" data-key="sw4">Unreal Engine</span>
+          <span class="sw-badge" contenteditable="true" data-key="sw5">Premiere</span>
+          <span class="sw-badge" contenteditable="true" data-key="sw6">Illustrator</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">Habilidades</div>
+
+        <div class="skill-row">
+          <div class="skill-name">
+            <span contenteditable="true" data-key="skill1-name">Photoshop</span>
+            <span class="skill-level-text" contenteditable="true" data-key="skill1-level">Avançado</span>
+          </div>
+          <div class="skill-track" data-key="skill1-pct" title="Clique para ajustar nível">
+            <div class="skill-fill" style="width:92%"></div>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-name">
+            <span contenteditable="true" data-key="skill2-name">After Effects</span>
+            <span class="skill-level-text" contenteditable="true" data-key="skill2-level">Avançado</span>
+          </div>
+          <div class="skill-track" data-key="skill2-pct" title="Clique para ajustar nível">
+            <div class="skill-fill" style="width:88%"></div>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-name">
+            <span contenteditable="true" data-key="skill3-name">Blender 3D</span>
+            <span class="skill-level-text" contenteditable="true" data-key="skill3-level">Intermediário</span>
+          </div>
+          <div class="skill-track" data-key="skill3-pct" title="Clique para ajustar nível">
+            <div class="skill-fill" style="width:72%"></div>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-name">
+            <span contenteditable="true" data-key="skill4-name">Unreal Engine</span>
+            <span class="skill-level-text" contenteditable="true" data-key="skill4-level">Intermediário</span>
+          </div>
+          <div class="skill-track" data-key="skill4-pct" title="Clique para ajustar nível">
+            <div class="skill-fill" style="width:65%"></div>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-name">
+            <span contenteditable="true" data-key="skill5-name">Edição de Vídeo</span>
+            <span class="skill-level-text" contenteditable="true" data-key="skill5-level">Intermediário</span>
+          </div>
+          <div class="skill-track" data-key="skill5-pct" title="Clique para ajustar nível">
+            <div class="skill-fill" style="width:70%"></div>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-name">
+            <span contenteditable="true" data-key="skill6-name">IA Aplicada</span>
+            <span class="skill-level-text" contenteditable="true" data-key="skill6-level">Conhecimento</span>
+          </div>
+          <div class="skill-track" data-key="skill6-pct" title="Clique para ajustar nível">
+            <div class="skill-fill" style="width:60%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">Idiomas</div>
+        <div class="lang-item">
+          <span class="lang-name" contenteditable="true" data-key="lang1-name">Inglês</span>
+          <div class="lang-dots" data-key="lang1-dots" data-level="2">
+            <div class="dot filled"></div>
+            <div class="dot filled"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+        </div>
+        <div class="lang-item">
+          <span class="lang-name" contenteditable="true" data-key="lang2-name">Espanhol</span>
+          <div class="lang-dots" data-key="lang2-dots" data-level="2">
+            <div class="dot filled"></div>
+            <div class="dot filled"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+        </div>
+        <div class="lang-item">
+          <span class="lang-name" contenteditable="true" data-key="lang3-name">Japonês</span>
+          <div class="lang-dots" data-key="lang3-dots" data-level="1">
+            <div class="dot filled"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="name-block">
+        <span class="name-first" contenteditable="true" data-key="name-first">João Vitor</span>
+        <span class="name-last">
+          <span contenteditable="true" data-key="name-last-a">DA </span><span class="accent-word" contenteditable="true" data-key="name-last-b">SILVA</span>
+        </span>
+      </div>
+      <div class="title-tag">
+        <span class="title-tag-text" contenteditable="true" data-key="title-tag">Designer Gráfico · 3D Artist · Motion</span>
+      </div>
+
+      <p class="objective" contenteditable="true" data-key="objective">
+        Profissional criativo com sólida experiência em design gráfico, motion graphics e modelagem 3D. Domínio de Photoshop, After Effects, Blender e Unreal Engine. Focado em soluções visuais de alto impacto — da campanha publicitária ao ambiente tridimensional. Aprendizado rápido, comunicação clara e paixão por tecnologia e inovação.
+      </p>
+
+      <div class="section">
+        <div class="section-header">
+          <span class="section-num">01</span>
+          <span class="section-title">Experiência</span>
+          <div class="section-rule"></div>
+        </div>
+
+        <div class="exp-item">
+          <div>
+            <div class="exp-company" contenteditable="true" data-key="exp1-company">Vivenci Supermercados</div>
+            <div class="exp-role" contenteditable="true" data-key="exp1-role">Setor de Marketing — Designer</div>
+          </div>
+          <div class="exp-date" contenteditable="true" data-key="exp1-date">Set/2020<br>Atual</div>
+          <ul class="exp-bullets">
+            <li contenteditable="true" data-key="exp1-b1">Criação de conteúdos visuais para campanhas promocionais e materiais institucionais</li>
+            <li contenteditable="true" data-key="exp1-b2">Manipulação avançada de imagens e peças publicitárias com Photoshop</li>
+            <li contenteditable="true" data-key="exp1-b3">Produção de vídeos com After Effects e modelagem 3D (Blender) para ações internas e externas</li>
+          </ul>
+        </div>
+
+        <div class="exp-item">
+          <div>
+            <div class="exp-company" contenteditable="true" data-key="exp2-company">Vivenci Supermercados</div>
+            <div class="exp-role" contenteditable="true" data-key="exp2-role">Operador de Caixa</div>
+          </div>
+          <div class="exp-date" contenteditable="true" data-key="exp2-date">Jul/2020<br>Set/2020</div>
+          <ul class="exp-bullets">
+            <li contenteditable="true" data-key="exp2-b1">Atendimento ao cliente, operação de caixa e controle financeiro diário</li>
+            <li contenteditable="true" data-key="exp2-b2">Registro de produtos, recebimento de valores e fechamento de caixa</li>
+          </ul>
+        </div>
+
+        <div class="exp-item">
+          <div>
+            <div class="exp-company" contenteditable="true" data-key="exp3-company">Lan House Ação Games</div>
+            <div class="exp-role" contenteditable="true" data-key="exp3-role">Atendimento · Operador de Caixa</div>
+          </div>
+          <div class="exp-date" contenteditable="true" data-key="exp3-date">Mar/2015<br>Mar/2020</div>
+          <ul class="exp-bullets">
+            <li contenteditable="true" data-key="exp3-b1">Atendimento ao público e suporte técnico básico em ambiente digital</li>
+            <li contenteditable="true" data-key="exp3-b2">Operação de caixa, controle financeiro e manutenção de equipamentos</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-header">
+          <span class="section-num">02</span>
+          <span class="section-title">Formação &amp; Cursos</span>
+          <div class="section-rule"></div>
+        </div>
+
+        <div class="edu-row">
+          <div>
+            <div class="edu-name" contenteditable="true" data-key="edu1-name">Ensino Médio Completo</div>
+            <div class="edu-detail" contenteditable="true" data-key="edu1-detail">Formação base — concluído</div>
+          </div>
+          <span class="edu-tag" contenteditable="true" data-key="edu1-tag">Concluído</span>
+        </div>
+        <div class="edu-row">
+          <div>
+            <div class="edu-name" contenteditable="true" data-key="edu2-name">Designer Gráfico — Photoshop &amp; Blender</div>
+            <div class="edu-detail" contenteditable="true" data-key="edu2-detail">Cursos online com experiência prática extensiva</div>
+          </div>
+          <span class="edu-tag orange" contenteditable="true" data-key="edu2-tag">Autodidata</span>
+        </div>
+        <div class="edu-row">
+          <div>
+            <div class="edu-name" contenteditable="true" data-key="edu3-name">After Effects &amp; Motion Graphics</div>
+            <div class="edu-detail" contenteditable="true" data-key="edu3-detail">Produção audiovisual e animação aplicada</div>
+          </div>
+          <span class="edu-tag orange" contenteditable="true" data-key="edu3-tag">Prática</span>
+        </div>
+        <div class="edu-row">
+          <div>
+            <div class="edu-name" contenteditable="true" data-key="edu4-name">Unreal Engine — Modelagem &amp; Ambientes</div>
+            <div class="edu-detail" contenteditable="true" data-key="edu4-detail">Criação de cenas e ambientes 3D em tempo real</div>
+          </div>
+          <span class="edu-tag orange" contenteditable="true" data-key="edu4-tag">Em curso</span>
+        </div>
+      </div>
+
+      <div class="info-strip">
+        <div class="info-item">
+          <span class="info-icon">🚗</span>
+          <span class="info-text" contenteditable="true" data-key="info1">CNH Categoria B · Veículo próprio</span>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">📅</span>
+          <span class="info-text" contenteditable="true" data-key="info2">Disponibilidade total de horário</span>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">👨‍👩‍👦</span>
+          <span class="info-text" contenteditable="true" data-key="info3">Casado · 30 anos · 1 filho</span>
+        </div>
+      </div>
+
+      <div class="portfolio-bar">
+        <span class="portfolio-label">Portfólio Online</span>
+        <span class="portfolio-url" contenteditable="true" data-key="portfolio-url">behance.net/joovitorsilva25</span>
+      </div>
+    </main>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <span class="toolbar-hint">✏️ CLIQUE EM QUALQUER TEXTO PARA EDITAR</span>
+    <button class="btn btn-save" onclick="saveAll()">💾 Salvar</button>
+    <button class="btn btn-print" onclick="window.print()">🖨 Imprimir / PDF</button>
+    <button class="btn btn-reset" onclick="resetAll()">↺ Restaurar original</button>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'curriculo_jv_v1';
+
+    // ── LOAD ALL SAVED DATA ──
+    function loadAll() {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+
+      // text fields
+      document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        if (saved[key] !== undefined) {
+          if (el.classList.contains('skill-track')) {
+            el.querySelector('.skill-fill').style.width = saved[key];
+          } else if (el.classList.contains('lang-dots')) {
+            el.setAttribute('data-level', saved[key]);
+            renderDots(el, parseInt(saved[key]));
+          } else {
+            el.innerHTML = saved[key];
+          }
+        }
+      });
+
+      // photo
+      if (saved['photo-src']) {
+        document.getElementById('photo-img').src = saved['photo-src'];
+        document.getElementById('photo-img').style.display = 'block';
+        document.getElementById('photo-placeholder').style.display = 'none';
+      }
+    }
+
+    // ── SAVE ALL DATA ──
+    function saveAll() {
+      const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+
+      document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        if (el.classList.contains('skill-track')) {
+          data[key] = el.querySelector('.skill-fill').style.width;
+        } else if (el.classList.contains('lang-dots')) {
+          data[key] = el.getAttribute('data-level');
+        } else {
+          data[key] = el.innerHTML;
+        }
+      });
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      showToast();
+    }
+
+    function showToast() {
+      const t = document.getElementById('toast');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    }
+
+    function resetAll() {
+      if (confirm('Restaurar todos os campos para os dados originais?')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+      }
+    }
+
+    // ── AUTO-SAVE on input ──
+    let saveTimer;
+    document.addEventListener('input', (e) => {
+      if (e.target.hasAttribute('data-key')) {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(saveAll, 800);
+      }
+    });
+
+    // ── SKILL BAR — click to set percentage ──
+    document.querySelectorAll('.skill-track').forEach(track => {
+      track.addEventListener('click', function (e) {
+        const rect = this.getBoundingClientRect();
+        const pct = Math.round(((e.clientX - rect.left) / rect.width) * 100);
+        this.querySelector('.skill-fill').style.width = pct + '%';
+        saveAll();
+      });
+    });
+
+    // ── LANG DOTS — click to set level ──
+    function renderDots(container, level) {
+      container.querySelectorAll('.dot').forEach((dot, i) => {
+        dot.classList.toggle('filled', i < level);
+      });
+    }
+
+    document.querySelectorAll('.lang-dots').forEach(dots => {
+      dots.addEventListener('click', function (e) {
+        const allDots = Array.from(this.querySelectorAll('.dot'));
+        const clicked = allDots.indexOf(e.target);
+        if (clicked === -1) return;
+        const currentLevel = parseInt(this.getAttribute('data-level') || 0);
+        const newLevel = (clicked + 1 === currentLevel) ? clicked : clicked + 1;
+        this.setAttribute('data-level', newLevel);
+        renderDots(this, newLevel);
+        saveAll();
+      });
+    });
+
+    // ── PHOTO UPLOAD ──
+    document.getElementById('photo-input').addEventListener('change', function (e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (ev) {
+        const img = document.getElementById('photo-img');
+        const ph = document.getElementById('photo-placeholder');
+        img.src = ev.target.result;
+        img.style.display = 'block';
+        ph.style.display = 'none';
+        // save photo to localStorage
+        const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+        try {
+          data['photo-src'] = ev.target.result;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+          showToast();
+        } catch (err) {
+          console.warn('Foto grande demais para cache — não foi salva.');
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // ── PREVENT ENTER from creating new lines in single-line fields ──
+    const singleLineKeys = ['name-first', 'name-last-a', 'name-last-b', 'title-tag',
+      'contact-address', 'contact-phone', 'contact-email', 'contact-portfolio',
+      'exp1-company', 'exp1-role', 'exp2-company', 'exp2-role', 'exp3-company', 'exp3-role',
+      'portfolio-url', 'info1', 'info2', 'info3'];
+
+    document.querySelectorAll('[data-key]').forEach(el => {
+      if (singleLineKeys.includes(el.getAttribute('data-key'))) {
+        el.addEventListener('keydown', e => {
+          if (e.key === 'Enter') { e.preventDefault(); el.blur(); }
+        });
+      }
+    });
+
+    // ── INIT ──
+    loadAll();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Página não encontrada · MuApp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink: #0f0e0d;
+      --paper: #f5f2ee;
+      --accent: #c8472b;
+      --gold: #c9a84c;
+      --muted: #7a7570;
+      --border: rgba(15, 14, 13, 0.12);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--ink);
+      color: var(--paper);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Noise texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* Radial glow */
+    .glow {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(200, 71, 43, 0.12) 0%, transparent 65%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+
+      50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 0.7;
+      }
+    }
+
+    /* Grid lines background */
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(245, 242, 238, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(245, 242, 238, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    /* Main content */
+    .container {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Big 404 */
+    .four-o-four {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(8rem, 20vw, 16rem);
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(245, 242, 238, 0.1);
+      position: relative;
+      user-select: none;
+      animation: fadeIn 0.8s ease forwards;
+    }
+
+    /* Accent zero */
+    .four-o-four .zero {
+      -webkit-text-stroke: 1px var(--accent);
+      color: transparent;
+      position: relative;
+    }
+
+    .four-o-four .zero::after {
+      content: '0';
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: transparent;
+      -webkit-text-stroke: 0px;
+      text-shadow: 0 0 80px rgba(200, 71, 43, 0.4);
+    }
+
+    /* Broken CV mockup inside the zero — decorative */
+    .cv-broken {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-8deg);
+      width: 55px;
+      background: rgba(245, 242, 238, 0.06);
+      border: 1px solid rgba(245, 242, 238, 0.1);
+      border-radius: 2px;
+      padding: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      pointer-events: none;
+    }
+
+    .cv-line {
+      height: 3px;
+      background: rgba(245, 242, 238, 0.15);
+      border-radius: 1px;
+    }
+
+    .cv-line.accent {
+      background: rgba(200, 71, 43, 0.4);
+      width: 50%;
+    }
+
+    .cv-line.short {
+      width: 65%;
+    }
+
+    /* Mono tag */
+    .mono-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.3s forwards;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .mono-tag::before,
+    .mono-tag::after {
+      content: '';
+      display: block;
+      width: 2rem;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.5;
+    }
+
+    .headline {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: clamp(1.5rem, 4vw, 2.25rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.5s forwards;
+    }
+
+    .headline em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .sub {
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: rgba(245, 242, 238, 0.45);
+      line-height: 1.7;
+      max-width: 38ch;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.65s forwards;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.8s forwards;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--accent);
+      color: white;
+      font-size: 0.875rem;
+      font-weight: 500;
+      padding: 0.85rem 1.75rem;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      letter-spacing: 0.02em;
+    }
+
+    .btn-primary:hover {
+      background: #e8604a;
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: rgba(245, 242, 238, 0.4);
+      text-decoration: none;
+      padding: 0.85rem 1.5rem;
+      border: 1px solid rgba(245, 242, 238, 0.1);
+      border-radius: 2px;
+      transition: all 0.2s;
+      letter-spacing: 0.02em;
+    }
+
+    .btn-ghost:hover {
+      color: rgba(245, 242, 238, 0.8);
+      border-color: rgba(245, 242, 238, 0.2);
+    }
+
+    /* Logo no topo */
+    .logo {
+      position: fixed;
+      top: 1.5rem;
+      left: 2rem;
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 1.35rem;
+      color: rgba(245, 242, 238, 0.7);
+      text-decoration: none;
+      z-index: 20;
+      letter-spacing: -0.02em;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="glow"></div>
+  <div class="grid-bg"></div>
+
+  <a href="/" class="logo">Mu<span>App</span></a>
+
+  <div class="container">
+
+    <div class="four-o-four">
+      4<span class="zero">
+        0
+        <div class="cv-broken">
+          <div class="cv-line accent"></div>
+          <div class="cv-line"></div>
+          <div class="cv-line short"></div>
+          <div class="cv-line"></div>
+          <div class="cv-line short"></div>
+        </div>
+      </span>4
+    </div>
+
+    <p class="mono-tag">Página não encontrada</p>
+
+    <h1 class="headline">
+      Esse currículo<br>
+      <em>não existe por aqui.</em>
+    </h1>
+
+    <p class="sub">
+      A página que você procura foi deletada, nunca existiu ou o link está errado. Mas seu currículo pode existir — e muito bem feito.
+    </p>
+
+    <div class="actions">
+      <a href="/" class="btn-primary">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M19 12H5M12 5l-7 7 7 7" />
+        </svg>
+        Voltar ao início
+      </a>
+      <a href="/models/" class="btn-ghost">
+        Ver modelos de currículo
+      </a>
+    </div>
+
+  </div>
+
+</body>
+
+</html>

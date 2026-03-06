@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Currículo Editável — Lucas Curty Da Silva</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #1a2744;
+      --gold: #b8933f;
+      --gold-light: #d4aa5a;
+      --cream: #faf8f4;
+      --gray-light: #f0ede8;
+      --gray-mid: #c8c4bc;
+      --text: #2c2c2c;
+      --muted: #6b6560;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      background: #d8d4cf;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 28px 20px 80px;
+    }
+
+    /* ── EDIT HINTS ── */
+    [contenteditable="true"]:hover {
+      outline: 1.5px dashed rgba(184,147,63,0.5);
+      border-radius: 2px;
+      cursor: text;
+    }
+    [contenteditable="true"]:focus {
+      outline: 2px solid var(--gold);
+      border-radius: 2px;
+      background: rgba(184,147,63,0.07);
+    }
+
+    /* ── PAGE ── */
+    #cv {
+      width: 210mm;
+      height: 297mm;
+      background: var(--cream);
+      box-shadow: 0 6px 30px rgba(0,0,0,0.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── HEADER ── */
+    .cv-header {
+      background: var(--navy);
+      color: #fff;
+      padding: 20px 34px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .cv-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 27px; font-weight: 700;
+      line-height: 1.15; margin-bottom: 3px;
+    }
+    .tagline {
+      font-size: 10.5px; letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold-light); font-weight: 500;
+    }
+    .contacts {
+      margin-top: 9px;
+      display: flex; flex-direction: column; gap: 3px;
+    }
+    .contacts span, .contacts a {
+      font-size: 11px; color: rgba(255,255,255,0.82);
+      text-decoration: none;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .contacts a:hover { color: var(--gold-light); }
+    .ci { width: 11px; height: 11px; fill: var(--gold-light); flex-shrink: 0; }
+
+    /* ── PHOTO ── */
+    .photo-area {
+      width: 84px; height: 100px;
+      border: 2px solid var(--gold);
+      border-radius: 3px; overflow: hidden;
+      cursor: pointer;
+      background: rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .photo-area:hover { border-color: var(--gold-light); }
+    .photo-area img { width: 100%; height: 100%; object-fit: cover; display: none; }
+    .photo-ph {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 5px;
+      color: rgba(255,255,255,0.38);
+      font-size: 9.5px; text-align: center; padding: 6px;
+      pointer-events: none;
+    }
+    .photo-ph svg { width: 24px; height: 24px; }
+    #photo-input { display: none; }
+
+    /* ── STRIPE ── */
+    .stripe {
+      height: 4px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light) 55%, transparent);
+      flex-shrink: 0;
+    }
+
+    /* ── BODY ── */
+    .cv-body {
+      display: grid;
+      grid-template-columns: 196px 1fr;
+      flex: 1; min-height: 0;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      background: var(--gray-light);
+      border-right: 1px solid var(--gray-mid);
+      padding: 16px 18px;
+      display: flex; flex-direction: column; gap: 14px;
+      overflow: hidden;
+    }
+
+    /* ── MAIN ── */
+    .main {
+      padding: 16px 28px;
+      display: flex; flex-direction: column; gap: 16px;
+      overflow: hidden;
+    }
+
+    /* ── SECTION TITLE ── */
+    .stitle {
+      font-family: 'Playfair Display', serif;
+      font-size: 9.5px; font-weight: 600;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--gold);
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 4px; margin-bottom: 9px;
+    }
+
+    /* ── OBJECTIVE ── */
+    .obj { font-size: 12px; line-height: 1.65; color: var(--text); }
+
+    /* ── EXPERIENCE ── */
+    .exp + .exp { margin-top: 13px; }
+    .exp-role {
+      font-family: 'Playfair Display', serif;
+      font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 1px;
+    }
+    .exp-co {
+      font-size: 11px; font-weight: 600; color: var(--gold);
+      letter-spacing: 0.04em; margin-bottom: 1px;
+    }
+    .exp-period { font-size: 10px; color: var(--muted); font-style: italic; margin-bottom: 6px; }
+    .exp-list { list-style: none; display: flex; flex-direction: column; gap: 3px; }
+    .exp-list li {
+      font-size: 11.5px; line-height: 1.5; color: var(--text);
+      padding-left: 11px; position: relative;
+    }
+    .exp-list li::before {
+      content: ''; position: absolute; left: 0; top: 7px;
+      width: 5px; height: 1px; background: var(--gold);
+    }
+    .badge {
+      display: inline-block;
+      background: var(--navy); color: var(--gold-light);
+      font-size: 9.5px; font-weight: 600;
+      letter-spacing: 0.05em; padding: 2px 8px;
+      border-radius: 2px; margin-top: 5px; text-transform: uppercase;
+    }
+
+    /* ── EDUCATION ── */
+    .edu + .edu { margin-top: 9px; }
+    .edu-deg {
+      font-family: 'Playfair Display', serif;
+      font-size: 11.5px; font-weight: 600; color: var(--navy);
+      line-height: 1.3; margin-bottom: 2px;
+    }
+    .edu-school { font-size: 10px; color: var(--muted); margin-bottom: 1px; }
+    .edu-year { font-size: 9.5px; color: var(--gold); font-weight: 600; letter-spacing: 0.08em; }
+
+    /* ── TAGS ── */
+    .tags { display: flex; flex-wrap: wrap; gap: 4px; }
+    .tag {
+      background: #fff; border: 1px solid var(--gray-mid);
+      color: var(--text); font-size: 9.5px;
+      padding: 2px 6px; border-radius: 2px; line-height: 1.5;
+    }
+
+    /* ── LANGUAGES ── */
+    .lang-row {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 3px;
+    }
+    .lang-name { font-size: 11px; font-weight: 500; color: var(--text); }
+    .lang-lvl { font-size: 9.5px; color: var(--muted); font-style: italic; }
+    .lang-bar {
+      width: 100%; height: 3px; background: var(--gray-mid);
+      border-radius: 2px; margin-bottom: 7px; overflow: hidden;
+      cursor: pointer;
+    }
+    .lang-bar:hover { background: #b0aca4; }
+    .lang-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--navy), var(--gold));
+      border-radius: 2px;
+    }
+
+    /* ── COURSES ── */
+    .course {
+      font-size: 10.5px; color: var(--text);
+      padding: 3px 0; border-bottom: 1px dashed var(--gray-mid); line-height: 1.4;
+    }
+    .course:last-child { border-bottom: none; }
+
+    /* ── TOOLBAR ── */
+    .toolbar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; padding: 10px 20px;
+      z-index: 100; box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+    }
+    .toolbar-hint {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 9px; color: rgba(255,255,255,0.45);
+      letter-spacing: 1px; margin-right: 10px; text-transform: uppercase;
+    }
+    .btn {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 7px 16px; border-radius: 3px;
+      border: none; cursor: pointer; transition: opacity .15s;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn-print { background: var(--gold); color: #fff; }
+    .btn-save { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85); border: 1px solid rgba(255,255,255,0.2); }
+    .btn-reset { background: transparent; color: rgba(255,255,255,0.35); border: 1px solid rgba(255,255,255,0.1); font-size: 9px; }
+
+    .saved-toast {
+      position: fixed; top: 20px; right: 20px;
+      background: #1a5c3a; color: #fff;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 10px; font-weight: 600; letter-spacing: 0.5px;
+      padding: 8px 16px; border-radius: 3px;
+      opacity: 0; transition: opacity .3s;
+      z-index: 200; pointer-events: none;
+    }
+    .saved-toast.show { opacity: 1; }
+
+    @media print {
+      @page { size: A4; margin: 0; }
+      body { background: none; padding: 0; }
+      #cv { box-shadow: none; }
+      .toolbar { display: none; }
+      .saved-toast { display: none; }
+      .photo-ph { display: none !important; }
+      [contenteditable="true"]:hover,
+      [contenteditable="true"]:focus { outline: none !important; background: transparent !important; }
+      .cv-header, .sidebar, .stripe, .badge, .lang-bar-fill, .tag {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="saved-toast" id="toast">✓ Salvo automaticamente</div>
+
+<div id="cv">
+
+  <!-- HEADER -->
+  <div class="cv-header">
+    <div>
+      <h1 contenteditable="true" data-key="name">Lucas Curty Da Silva</h1>
+      <div class="tagline" contenteditable="true" data-key="tagline">Engenheiro Mecânico &nbsp;·&nbsp; Segurança do Trabalho</div>
+      <div class="contacts">
+        <span>
+          <svg class="ci" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          <span contenteditable="true" data-key="contact-address">Rio de Janeiro - RJ &nbsp;|&nbsp; Cosmos, CEP 23062-460</span>
+        </span>
+        <span>
+          <svg class="ci" viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.18 21 3 13.82 3 5a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01l-2.2 2.2z"/></svg>
+          <span contenteditable="true" data-key="contact-phone">(21) 98662-3411</span>
+        </span>
+        <span>
+          <svg class="ci" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          <span contenteditable="true" data-key="contact-email">lucascurty@email.com</span>
+        </span>
+        <span>
+          <svg class="ci" viewBox="0 0 24 24"><path d="M19 3A2 2 0 0121 5v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 001.68-1.68 1.68 1.68 0 00-1.68-1.68 1.68 1.68 0 00-1.68 1.68 1.68 1.68 0 001.68 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+          <span contenteditable="true" data-key="contact-linkedin">linkedin.com/in/lucas-curty-87270a15a</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="photo-area" onclick="document.getElementById('photo-input').click()" title="Clique para adicionar sua foto">
+      <img id="photo-preview" src="" alt="Foto">
+      <div class="photo-ph" id="photo-ph">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+        </svg>
+        <span>Clique para<br>adicionar foto</span>
+      </div>
+    </div>
+    <input type="file" id="photo-input" accept="image/*">
+  </div>
+
+  <div class="stripe"></div>
+
+  <!-- BODY -->
+  <div class="cv-body">
+
+    <aside class="sidebar">
+
+      <div>
+        <div class="stitle">Formação Acadêmica</div>
+        <div class="edu">
+          <div class="edu-deg" contenteditable="true" data-key="edu1-deg">Pós-graduação em Engenharia de Segurança do Trabalho</div>
+          <div class="edu-school" contenteditable="true" data-key="edu1-school">Estácio</div>
+          <div class="edu-year" contenteditable="true" data-key="edu1-year">Concluído Dez. 2024</div>
+        </div>
+        <div class="edu">
+          <div class="edu-deg" contenteditable="true" data-key="edu2-deg">Bacharelado em Engenharia Mecânica</div>
+          <div class="edu-school" contenteditable="true" data-key="edu2-school">Centro Universitário do Rio de Janeiro</div>
+          <div class="edu-year" contenteditable="true" data-key="edu2-year">Concluído Dez. 2021</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="stitle">Competências Técnicas</div>
+        <div class="tags">
+          <span class="tag" contenteditable="true" data-key="tag1">Gestão de processos</span>
+          <span class="tag" contenteditable="true" data-key="tag2">Controle de qualidade</span>
+          <span class="tag" contenteditable="true" data-key="tag3">Emissão de NF</span>
+          <span class="tag" contenteditable="true" data-key="tag4">Normas técnicas</span>
+          <span class="tag" contenteditable="true" data-key="tag5">Pacote Office</span>
+          <span class="tag" contenteditable="true" data-key="tag6">Planilhas e relatórios</span>
+          <span class="tag" contenteditable="true" data-key="tag7">Revisões preventivas</span>
+          <span class="tag" contenteditable="true" data-key="tag8">Mercedes-Benz</span>
+          <span class="tag" contenteditable="true" data-key="tag9">Segurança operacional</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="stitle">Idiomas</div>
+        <div class="lang-row">
+          <span class="lang-name" contenteditable="true" data-key="lang1-name">Espanhol</span>
+          <span class="lang-lvl" contenteditable="true" data-key="lang1-lvl">Intermediário</span>
+        </div>
+        <div class="lang-bar" data-key="lang1-bar" title="Clique para ajustar nível">
+          <div class="lang-bar-fill" style="width:55%"></div>
+        </div>
+        <div class="lang-row">
+          <span class="lang-name" contenteditable="true" data-key="lang2-name">Inglês</span>
+          <span class="lang-lvl" contenteditable="true" data-key="lang2-lvl">Intermediário</span>
+        </div>
+        <div class="lang-bar" data-key="lang2-bar" style="margin-bottom:0" title="Clique para ajustar nível">
+          <div class="lang-bar-fill" style="width:55%"></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="stitle">Cursos e Treinamentos</div>
+        <div class="course" contenteditable="true" data-key="course1">Pacote Office - 2016</div>
+        <div class="course" contenteditable="true" data-key="course2">Treinamentos Mercedes-Benz: caminhões, ônibus e vans</div>
+      </div>
+
+      <div>
+        <div class="stitle">Perfil Comportamental</div>
+        <div class="tags">
+          <span class="tag" contenteditable="true" data-key="ptag1">Trabalho em equipe</span>
+          <span class="tag" contenteditable="true" data-key="ptag2">Organização</span>
+          <span class="tag" contenteditable="true" data-key="ptag3">Proatividade</span>
+          <span class="tag" contenteditable="true" data-key="ptag4">Atenção a detalhes</span>
+          <span class="tag" contenteditable="true" data-key="ptag5">Comunicação clara</span>
+          <span class="tag" contenteditable="true" data-key="ptag6">Capacidade analítica</span>
+          <span class="tag" contenteditable="true" data-key="ptag7">Flexibilidade</span>
+          <span class="tag" contenteditable="true" data-key="ptag8">Comprometimento</span>
+        </div>
+      </div>
+
+    </aside>
+
+    <main class="main">
+
+      <div>
+        <div class="stitle">Objetivo Profissional</div>
+        <p class="obj" contenteditable="true" data-key="objective">Atuar nas áreas de <strong>Engenharia Mecânica</strong> e <strong>Segurança do Trabalho</strong>, aplicando conhecimentos técnicos e boas práticas para desenvolver soluções eficientes e seguras no ambiente de trabalho, contribuindo para a melhoria contínua dos processos e a cultura de segurança organizacional.</p>
+      </div>
+
+      <div>
+        <div class="stitle">Experiência Profissional</div>
+
+        <div class="exp">
+          <div class="exp-role" contenteditable="true" data-key="exp1-role">Garantista</div>
+          <div class="exp-co" contenteditable="true" data-key="exp1-co">Rio Diesel Veículos e Peças S.A.</div>
+          <div class="exp-period" contenteditable="true" data-key="exp1-period">Outubro 2020 - Atual</div>
+          <ul class="exp-list">
+            <li contenteditable="true" data-key="exp1-b1">Organização e verificação de todos os processos de garantia e contratos da concessionária.</li>
+            <li contenteditable="true" data-key="exp1-b2">Cobrança junto à fábrica e emissão de notas fiscais de garantia e contrato.</li>
+            <li contenteditable="true" data-key="exp1-b3">Gerenciamento do envio de peças para fábrica ou destruição, mantendo estoque organizado e rastreável.</li>
+            <li contenteditable="true" data-key="exp1-b4">Criação e gestão de planilhas que agilizaram a abertura de processos de revisões veiculares.</li>
+          </ul>
+          <span class="badge" contenteditable="true" data-key="exp1-badge">Reconhecido como um dos melhores garantistas em 2023 - Mercedes Caminhões e Ônibus</span>
+        </div>
+
+        <div class="exp">
+          <div class="exp-role" contenteditable="true" data-key="exp2-role">Auxiliar Mecânico</div>
+          <div class="exp-co" contenteditable="true" data-key="exp2-co">Rio Diesel Veículos e Peças S.A.</div>
+          <div class="exp-period" contenteditable="true" data-key="exp2-period">Setembro 2019 - Outubro 2020</div>
+          <ul class="exp-list">
+            <li contenteditable="true" data-key="exp2-b1">Apoio aos mecânicos na execução de serviços e reparos em veículos pesados.</li>
+            <li contenteditable="true" data-key="exp2-b2">Realização de revisões preventivas garantindo conformidade com padrões técnicos.</li>
+            <li contenteditable="true" data-key="exp2-b3">Especialização prática em veículos Mercedes-Benz: caminhões, ônibus e vans.</li>
+          </ul>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <span class="toolbar-hint">✏️ Clique em qualquer texto para editar</span>
+  <button class="btn btn-save" onclick="saveAll()">💾 Salvar</button>
+  <button class="btn btn-print" onclick="window.print()">🖨 Imprimir / PDF</button>
+  <button class="btn btn-reset" onclick="resetAll()">↺ Restaurar original</button>
+</div>
+
+<script>
+  const STORAGE_KEY = 'curriculo_lucas_v1';
+
+  function loadAll() {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+
+    document.querySelectorAll('[data-key]').forEach(el => {
+      const key = el.getAttribute('data-key');
+      if (saved[key] === undefined) return;
+      if (el.classList.contains('lang-bar')) {
+        el.querySelector('.lang-bar-fill').style.width = saved[key];
+      } else {
+        el.innerHTML = saved[key];
+      }
+    });
+
+    if (saved['photo-src']) {
+      document.getElementById('photo-preview').src = saved['photo-src'];
+      document.getElementById('photo-preview').style.display = 'block';
+      document.getElementById('photo-ph').style.display = 'none';
+    }
+  }
+
+  function saveAll() {
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+
+    document.querySelectorAll('[data-key]').forEach(el => {
+      const key = el.getAttribute('data-key');
+      if (el.classList.contains('lang-bar')) {
+        data[key] = el.querySelector('.lang-bar-fill').style.width;
+      } else {
+        data[key] = el.innerHTML;
+      }
+    });
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    showToast();
+  }
+
+  function showToast() {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+  }
+
+  function resetAll() {
+    if (confirm('Restaurar todos os campos para os dados originais?')) {
+      localStorage.removeItem(STORAGE_KEY);
+      location.reload();
+    }
+  }
+
+  // Auto-save on input
+  let saveTimer;
+  document.addEventListener('input', (e) => {
+    if (e.target.hasAttribute('data-key')) {
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(saveAll, 800);
+    }
+  });
+
+  // Language bars — click to set %
+  document.querySelectorAll('.lang-bar').forEach(bar => {
+    bar.addEventListener('click', function(e) {
+      const rect = this.getBoundingClientRect();
+      const pct = Math.round(((e.clientX - rect.left) / rect.width) * 100);
+      this.querySelector('.lang-bar-fill').style.width = pct + '%';
+      saveAll();
+    });
+  });
+
+  // Prevent Enter in single-line fields
+  const singleLine = ['name','tagline','contact-address','contact-phone','contact-email','contact-linkedin',
+    'edu1-school','edu1-year','edu2-school','edu2-year',
+    'exp1-role','exp1-co','exp1-period','exp2-role','exp2-co','exp2-period',
+    'lang1-name','lang1-lvl','lang2-name','lang2-lvl',
+    'course1','course2'];
+
+  document.querySelectorAll('[data-key]').forEach(el => {
+    if (singleLine.includes(el.getAttribute('data-key'))) {
+      el.addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); el.blur(); }
+      });
+    }
+  });
+
+  // Photo upload
+  document.getElementById('photo-input').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      const img = document.getElementById('photo-preview');
+      const ph = document.getElementById('photo-ph');
+      img.src = ev.target.result;
+      img.style.display = 'block';
+      ph.style.display = 'none';
+      const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      try {
+        data['photo-src'] = ev.target.result;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        showToast();
+      } catch(err) {
+        console.warn('Foto grande demais para cache.');
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // Init
+  loadAll();
+</script>
+</body>
+</html>
