@@ -15,8 +15,6 @@
       --gray-mid: #c8c4bc;
       --text: #2c2c2c;
       --muted: #6b6560;
-
-      /* Site main palette */
       --ink: #0f0e0d;
       --paper: #f5f2ee;
       --accent: #c8472b;
@@ -100,12 +98,6 @@
 
     .back-nav-btn:hover {
       background: var(--accent);
-    }
-
-    @media print {
-      .back-nav {
-        display: none !important;
-      }
     }
 
     /* ── EDIT HINTS ── */
@@ -330,6 +322,7 @@
       line-height: 1.5;
       color: var(--text);
       padding-left: 11px;
+      padding-right: 18px;
       position: relative;
     }
 
@@ -395,12 +388,17 @@
       border: 1px solid var(--gray-mid);
       color: var(--text);
       font-size: 9.5px;
-      padding: 2px 6px;
+      padding: 2px 20px 2px 6px;
       border-radius: 2px;
       line-height: 1.5;
+      position: relative;
     }
 
     /* ── LANGUAGES ── */
+    .lang-item {
+      position: relative;
+    }
+
     .lang-row {
       display: flex;
       justify-content: space-between;
@@ -447,9 +445,10 @@
       padding: 3px 0;
       border-bottom: 1px dashed var(--gray-mid);
       line-height: 1.4;
+      position: relative;
     }
 
-    .course:last-child {
+    .course:last-of-type {
       border-bottom: none;
     }
 
@@ -527,12 +526,186 @@
       border-radius: 3px;
       opacity: 0;
       transition: opacity .3s;
-      z-index: 200;
+      z-index: 999;
       pointer-events: none;
     }
 
     .saved-toast.show {
       opacity: 1;
+    }
+
+    /* ══════════════════════════════════════
+       DYNAMIC CONTROLS
+    ══════════════════════════════════════ */
+
+    /* Section wrapper — reveals add row on hover */
+    .section-wrap {
+      position: relative;
+    }
+
+    .section-wrap:hover .dyn-add-row {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* dyn-block — reveals remove button on hover */
+    .dyn-block {
+      position: relative;
+    }
+
+    .dyn-block:hover>.dyn-remove {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Remove button floating on right of block */
+    .dyn-remove {
+      position: absolute;
+      top: 1px;
+      right: -20px;
+      width: 15px;
+      height: 15px;
+      background: #d94040;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      font-size: 11px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .15s, background .15s;
+      z-index: 10;
+    }
+
+    .dyn-remove:hover {
+      background: #b02020;
+    }
+
+    /* Add button row below a group */
+    .dyn-add-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .15s;
+    }
+
+    /* Generic add / inline add button */
+    .dyn-add-btn {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: transparent;
+      border: 1px dashed var(--gold);
+      border-radius: 2px;
+      padding: 2px 7px;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+      white-space: nowrap;
+    }
+
+    .dyn-add-btn:hover {
+      background: var(--gold);
+      color: #fff;
+    }
+
+    /* Show inline add buttons (li, badge) on exp hover */
+    .exp:hover .exp-inline-controls {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .exp-inline-controls {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .15s;
+      margin-top: 4px;
+      display: flex;
+      gap: 5px;
+    }
+
+    /* Tag remove button */
+    .tag-remove {
+      position: absolute;
+      right: 4px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 11px;
+      height: 11px;
+      background: #d94040;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      font-size: 8px;
+      line-height: 1;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tag:hover .tag-remove {
+      display: flex;
+    }
+
+    /* Li remove button */
+    .li-remove {
+      position: absolute;
+      right: 0;
+      top: 3px;
+      width: 13px;
+      height: 13px;
+      background: #d94040;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      font-size: 9px;
+      line-height: 1;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .exp-list li:hover .li-remove {
+      display: flex;
+    }
+
+    /* Badge wrapper */
+    .badge-wrap {
+      position: relative;
+      display: inline-block;
+      margin-top: 5px;
+    }
+
+    .badge-remove {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 13px;
+      height: 13px;
+      background: #d94040;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      font-size: 9px;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .badge-wrap:hover .badge-remove {
+      display: flex;
     }
 
     @media print {
@@ -550,12 +723,19 @@
         box-shadow: none;
       }
 
-      .toolbar {
-        display: none;
+      .toolbar,
+      .back-nav,
+      .saved-toast {
+        display: none !important;
       }
 
-      .saved-toast {
-        display: none;
+      .dyn-add-row,
+      .dyn-remove,
+      .li-remove,
+      .tag-remove,
+      .badge-remove,
+      .exp-inline-controls {
+        display: none !important;
       }
 
       .photo-ph {
@@ -629,7 +809,7 @@
         </div>
       </div>
 
-      <div class="photo-area" onclick="document.getElementById('photo-input').click()" title="Clique para adicionar sua foto">
+      <div class="photo-area" id="photo-area" title="Clique para adicionar sua foto">
         <img id="photo-preview" src="" alt="Foto">
         <div class="photo-ph" id="photo-ph">
           <svg viewBox="0 0 24 24" fill="currentColor">
@@ -648,70 +828,106 @@
 
       <aside class="sidebar">
 
-        <div>
+        <!-- FORMAÇÃO ACADÊMICA -->
+        <div class="section-wrap">
           <div class="stitle">Formação Acadêmica</div>
-          <div class="edu">
-            <div class="edu-deg" contenteditable="true" data-key="edu1-deg">Pós-graduação em Sua Especialização</div>
-            <div class="edu-school" contenteditable="true" data-key="edu1-school">Nome da Instituição</div>
-            <div class="edu-year" contenteditable="true" data-key="edu1-year">Concluído Mês. Ano</div>
+          <div id="edu-list">
+            <div class="edu dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <div class="edu-deg" contenteditable="true">Pós-graduação em Sua Especialização</div>
+              <div class="edu-school" contenteditable="true">Nome da Instituição</div>
+              <div class="edu-year" contenteditable="true">Concluído Mês. Ano</div>
+            </div>
+            <div class="edu dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <div class="edu-deg" contenteditable="true">Bacharelado em Seu Curso</div>
+              <div class="edu-school" contenteditable="true">Nome da Universidade</div>
+              <div class="edu-year" contenteditable="true">Concluído Mês. Ano</div>
+            </div>
           </div>
-          <div class="edu">
-            <div class="edu-deg" contenteditable="true" data-key="edu2-deg">Bacharelado em Seu Curso</div>
-            <div class="edu-school" contenteditable="true" data-key="edu2-school">Nome da Universidade</div>
-            <div class="edu-year" contenteditable="true" data-key="edu2-year">Concluído Mês. Ano</div>
+          <div class="dyn-add-row">
+            <button class="dyn-add-btn" onclick="addEdu()">+ Formação</button>
           </div>
         </div>
 
-        <div>
+        <!-- COMPETÊNCIAS TÉCNICAS -->
+        <div class="section-wrap">
           <div class="stitle">Competências Técnicas</div>
-          <div class="tags">
-            <span class="tag" contenteditable="true" data-key="tag1">Habilidade Técnica 1</span>
-            <span class="tag" contenteditable="true" data-key="tag2">Habilidade Técnica 2</span>
-            <span class="tag" contenteditable="true" data-key="tag3">Habilidade Técnica 3</span>
-            <span class="tag" contenteditable="true" data-key="tag4">Habilidade Técnica 4</span>
-            <span class="tag" contenteditable="true" data-key="tag5">Pacote Office</span>
-            <span class="tag" contenteditable="true" data-key="tag6">Planilhas e Relatórios</span>
-            <span class="tag" contenteditable="true" data-key="tag7">Habilidade Técnica 7</span>
-            <span class="tag" contenteditable="true" data-key="tag8">Habilidade Técnica 8</span>
-            <span class="tag" contenteditable="true" data-key="tag9">Habilidade Técnica 9</span>
+          <div class="tags" id="tags-tech">
+            <span class="tag" contenteditable="true">Habilidade 1<button class="tag-remove" onclick="removeTag(this)">×</button></span>
+            <span class="tag" contenteditable="true">Habilidade 2<button class="tag-remove" onclick="removeTag(this)">×</button></span>
+            <span class="tag" contenteditable="true">Habilidade 3<button class="tag-remove" onclick="removeTag(this)">×</button></span>
+            <span class="tag" contenteditable="true">Pacote Office<button class="tag-remove" onclick="removeTag(this)">×</button></span>
+            <span class="tag" contenteditable="true">Planilhas e Relatórios<button class="tag-remove" onclick="removeTag(this)">×</button></span>
+            <span class="tag" contenteditable="true">Habilidade 6<button class="tag-remove" onclick="removeTag(this)">×</button></span>
+          </div>
+          <div class="dyn-add-row">
+            <button class="dyn-add-btn" onclick="addTag('tags-tech')">+ Competência</button>
           </div>
         </div>
 
-        <div>
+        <!-- IDIOMAS -->
+        <div class="section-wrap">
           <div class="stitle">Idiomas</div>
-          <div class="lang-row">
-            <span class="lang-name" contenteditable="true" data-key="lang1-name">Espanhol</span>
-            <span class="lang-lvl" contenteditable="true" data-key="lang1-lvl">Intermediário</span>
+          <div id="lang-list">
+            <div class="lang-item dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <div class="lang-row">
+                <span class="lang-name" contenteditable="true">Inglês</span>
+                <span class="lang-lvl" contenteditable="true">Intermediário</span>
+              </div>
+              <div class="lang-bar" title="Clique para ajustar nível">
+                <div class="lang-bar-fill" style="width:55%"></div>
+              </div>
+            </div>
+            <div class="lang-item dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <div class="lang-row">
+                <span class="lang-name" contenteditable="true">Espanhol</span>
+                <span class="lang-lvl" contenteditable="true">Básico</span>
+              </div>
+              <div class="lang-bar" style="margin-bottom:0" title="Clique para ajustar nível">
+                <div class="lang-bar-fill" style="width:30%"></div>
+              </div>
+            </div>
           </div>
-          <div class="lang-bar" data-key="lang1-bar" title="Clique para ajustar nível">
-            <div class="lang-bar-fill" style="width:55%"></div>
-          </div>
-          <div class="lang-row">
-            <span class="lang-name" contenteditable="true" data-key="lang2-name">Inglês</span>
-            <span class="lang-lvl" contenteditable="true" data-key="lang2-lvl">Intermediário</span>
-          </div>
-          <div class="lang-bar" data-key="lang2-bar" style="margin-bottom:0" title="Clique para ajustar nível">
-            <div class="lang-bar-fill" style="width:55%"></div>
+          <div class="dyn-add-row">
+            <button class="dyn-add-btn" onclick="addLang()">+ Idioma</button>
           </div>
         </div>
 
-        <div>
+        <!-- CURSOS E TREINAMENTOS -->
+        <div class="section-wrap">
           <div class="stitle">Cursos e Treinamentos</div>
-          <div class="course" contenteditable="true" data-key="course1">Nome do Curso - Ano</div>
-          <div class="course" contenteditable="true" data-key="course2">Nome do Treinamento ou Certificação</div>
+          <div id="courses-list">
+            <div class="course dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <span contenteditable="true">Nome do Curso - Ano</span>
+            </div>
+            <div class="course dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <span contenteditable="true">Nome do Treinamento ou Certificação</span>
+            </div>
+          </div>
+          <div class="dyn-add-row">
+            <button class="dyn-add-btn" onclick="addCourse()">+ Curso</button>
+          </div>
         </div>
 
-        <div>
+        <!-- PERFIL COMPORTAMENTAL -->
+        <div class="section-wrap">
           <div class="stitle">Perfil Comportamental</div>
-          <div class="tags">
-            <span class="tag" contenteditable="true" data-key="ptag1">Trabalho em equipe</span>
-            <span class="tag" contenteditable="true" data-key="ptag2">Organização</span>
-            <span class="tag" contenteditable="true" data-key="ptag3">Proatividade</span>
-            <span class="tag" contenteditable="true" data-key="ptag4">Atenção a detalhes</span>
-            <span class="tag" contenteditable="true" data-key="ptag5">Comunicação clara</span>
-            <span class="tag" contenteditable="true" data-key="ptag6">Pensamento analítico</span>
-            <span class="tag" contenteditable="true" data-key="ptag7">Flexibilidade</span>
-            <span class="tag" contenteditable="true" data-key="ptag8">Comprometimento</span>
+          <div class="tags" id="tags-soft">
+            <span class="tag" contenteditable="true">Trabalho em equipe<button class="tag-remove" onclick="removeTag(this)">×</button></span>
+            <span class="tag" contenteditable="true">Organização<button class="tag-remove" onclick="removeTag(this)">×</button></span>
+            <span class="tag" contenteditable="true">Proatividade<button class="tag-remove" onclick="removeTag(this)">×</button></span>
+            <span class="tag" contenteditable="true">Atenção a detalhes<button class="tag-remove" onclick="removeTag(this)">×</button></span>
+            <span class="tag" contenteditable="true">Comunicação clara<button class="tag-remove" onclick="removeTag(this)">×</button></span>
+            <span class="tag" contenteditable="true">Flexibilidade<button class="tag-remove" onclick="removeTag(this)">×</button></span>
+            <span class="tag" contenteditable="true">Comprometimento<button class="tag-remove" onclick="removeTag(this)">×</button></span>
+          </div>
+          <div class="dyn-add-row">
+            <button class="dyn-add-btn" onclick="addTag('tags-soft')">+ Característica</button>
           </div>
         </div>
 
@@ -719,38 +935,56 @@
 
       <main class="main">
 
+        <!-- OBJETIVO -->
         <div>
           <div class="stitle">Objetivo Profissional</div>
           <p class="obj" contenteditable="true" data-key="objective">Atuar na área de <strong>Sua Área Principal</strong> e <strong>Sua Especialidade</strong>, aplicando conhecimentos técnicos e boas práticas para desenvolver soluções eficientes no ambiente de trabalho, contribuindo para a melhoria contínua dos processos e para os resultados da organização.</p>
         </div>
 
-        <div>
+        <!-- EXPERIÊNCIAS -->
+        <div class="section-wrap">
           <div class="stitle">Experiência Profissional</div>
+          <div id="exp-list">
 
-          <div class="exp">
-            <div class="exp-role" contenteditable="true" data-key="exp1-role">Cargo Atual</div>
-            <div class="exp-co" contenteditable="true" data-key="exp1-co">Nome da Empresa</div>
-            <div class="exp-period" contenteditable="true" data-key="exp1-period">Mês Ano - Atual</div>
-            <ul class="exp-list">
-              <li contenteditable="true" data-key="exp1-b1">Descrição da principal responsabilidade e resultado gerado na função.</li>
-              <li contenteditable="true" data-key="exp1-b2">Atividade relevante com impacto mensurável no departamento ou empresa.</li>
-              <li contenteditable="true" data-key="exp1-b3">Projeto ou iniciativa que demonstra sua competência técnica ou de gestão.</li>
-              <li contenteditable="true" data-key="exp1-b4">Melhoria implementada ou processo otimizado com resultado concreto.</li>
-            </ul>
-            <span class="badge" contenteditable="true" data-key="exp1-badge">Conquista ou reconhecimento relevante nessa posição</span>
+            <div class="exp dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover experiência">×</button>
+              <div class="exp-role" contenteditable="true">Cargo Atual</div>
+              <div class="exp-co" contenteditable="true">Nome da Empresa</div>
+              <div class="exp-period" contenteditable="true">Mês Ano - Atual</div>
+              <ul class="exp-list">
+                <li contenteditable="true">Descrição da principal responsabilidade e resultado gerado na função.<button class="li-remove" onclick="removeLi(this)">×</button></li>
+                <li contenteditable="true">Atividade relevante com impacto mensurável no departamento ou empresa.<button class="li-remove" onclick="removeLi(this)">×</button></li>
+                <li contenteditable="true">Projeto ou iniciativa que demonstra sua competência técnica ou de gestão.<button class="li-remove" onclick="removeLi(this)">×</button></li>
+              </ul>
+              <div class="exp-inline-controls">
+                <button class="dyn-add-btn" onclick="addLi(this)">+ Item</button>
+                <button class="dyn-add-btn" onclick="addBadge(this)">+ Destaque</button>
+              </div>
+              <div class="badge-wrap">
+                <span class="badge" contenteditable="true">Conquista ou reconhecimento relevante</span>
+                <button class="badge-remove" onclick="removeBadge(this)">×</button>
+              </div>
+            </div>
+
+            <div class="exp dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover experiência">×</button>
+              <div class="exp-role" contenteditable="true">Cargo Anterior</div>
+              <div class="exp-co" contenteditable="true">Nome da Empresa Anterior</div>
+              <div class="exp-period" contenteditable="true">Mês Ano - Mês Ano</div>
+              <ul class="exp-list">
+                <li contenteditable="true">Descrição das principais atividades e responsabilidades exercidas.<button class="li-remove" onclick="removeLi(this)">×</button></li>
+                <li contenteditable="true">Resultado ou entrega importante realizada nessa posição.<button class="li-remove" onclick="removeLi(this)">×</button></li>
+              </ul>
+              <div class="exp-inline-controls">
+                <button class="dyn-add-btn" onclick="addLi(this)">+ Item</button>
+                <button class="dyn-add-btn" onclick="addBadge(this)">+ Destaque</button>
+              </div>
+            </div>
+
           </div>
-
-          <div class="exp">
-            <div class="exp-role" contenteditable="true" data-key="exp2-role">Cargo Anterior</div>
-            <div class="exp-co" contenteditable="true" data-key="exp2-co">Nome da Empresa Anterior</div>
-            <div class="exp-period" contenteditable="true" data-key="exp2-period">Mês Ano - Mês Ano</div>
-            <ul class="exp-list">
-              <li contenteditable="true" data-key="exp2-b1">Descrição das principais atividades e responsabilidades exercidas.</li>
-              <li contenteditable="true" data-key="exp2-b2">Resultado ou entrega importante realizada nessa posição.</li>
-              <li contenteditable="true" data-key="exp2-b3">Habilidade ou conhecimento adquirido durante esse período.</li>
-            </ul>
+          <div class="dyn-add-row">
+            <button class="dyn-add-btn" onclick="addExp()">+ Experiência</button>
           </div>
-
         </div>
 
       </main>
@@ -759,56 +993,31 @@
 
   <!-- TOOLBAR -->
   <div class="toolbar">
-    <span class="toolbar-hint">✏️ Clique em qualquer texto para editar</span>
+    <span class="toolbar-hint">✏️ Clique para editar &nbsp;·&nbsp; Passe o mouse para + / ×</span>
     <button class="btn btn-save" onclick="saveAll()">💾 Salvar</button>
     <button class="btn btn-print" onclick="window.print()">🖨 Imprimir / PDF</button>
     <button class="btn btn-reset" onclick="resetAll()">↺ Restaurar original</button>
   </div>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
   <script>
-    const STORAGE_KEY = 'curriculo_modelo_v1';
+    const STORAGE_KEY = 'curriculo_modelo_v2';
 
-    function loadAll() {
-      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-
-      document.querySelectorAll('[data-key]').forEach(el => {
-        const key = el.getAttribute('data-key');
-        if (saved[key] === undefined) return;
-        if (el.classList.contains('lang-bar')) {
-          el.querySelector('.lang-bar-fill').style.width = saved[key];
-        } else {
-          el.innerHTML = saved[key];
-        }
-      });
-
-      if (saved['photo-src']) {
-        document.getElementById('photo-preview').src = saved['photo-src'];
-        document.getElementById('photo-preview').style.display = 'block';
-        document.getElementById('photo-ph').style.display = 'none';
-      }
-    }
-
+    /* ══════════════════ SAVE / LOAD ══════════════════ */
     function saveAll() {
-      const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-
-      document.querySelectorAll('[data-key]').forEach(el => {
-        const key = el.getAttribute('data-key');
-        if (el.classList.contains('lang-bar')) {
-          data[key] = el.querySelector('.lang-bar-fill').style.width;
-        } else {
-          data[key] = el.innerHTML;
-        }
-      });
-
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      try {
+        localStorage.setItem(STORAGE_KEY, document.getElementById('cv').innerHTML);
+      } catch (e) { console.warn('Erro ao salvar:', e); }
       showToast();
     }
 
-    function showToast() {
-      const t = document.getElementById('toast');
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2000);
+    function loadAll() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (!saved) return;
+      try {
+        document.getElementById('cv').innerHTML = saved;
+        bindLangBars();
+        bindPhotoArea();
+      } catch (e) { console.warn('Erro ao carregar:', e); }
     }
 
     function resetAll() {
@@ -818,62 +1027,183 @@
       }
     }
 
-    // Auto-save on input
+    function showToast() {
+      const t = document.getElementById('toast');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    }
+
+    // Auto-save on any edit
     let saveTimer;
-    document.addEventListener('input', (e) => {
-      if (e.target.hasAttribute('data-key')) {
-        clearTimeout(saveTimer);
-        saveTimer = setTimeout(saveAll, 800);
-      }
+    document.addEventListener('input', () => {
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(saveAll, 800);
     });
 
-    // Language bars — click to set %
-    document.querySelectorAll('.lang-bar').forEach(bar => {
-      bar.addEventListener('click', function (e) {
-        const rect = this.getBoundingClientRect();
-        const pct = Math.round(((e.clientX - rect.left) / rect.width) * 100);
-        this.querySelector('.lang-bar-fill').style.width = pct + '%';
-        saveAll();
-      });
-    });
-
-    // Prevent Enter in single-line fields
-    const singleLine = ['name', 'tagline', 'contact-address', 'contact-phone', 'contact-email', 'contact-linkedin',
-      'edu1-school', 'edu1-year', 'edu2-school', 'edu2-year',
-      'exp1-role', 'exp1-co', 'exp1-period', 'exp2-role', 'exp2-co', 'exp2-period',
-      'lang1-name', 'lang1-lvl', 'lang2-name', 'lang2-lvl',
-      'course1', 'course2'];
-
-    document.querySelectorAll('[data-key]').forEach(el => {
-      if (singleLine.includes(el.getAttribute('data-key'))) {
-        el.addEventListener('keydown', e => {
-          if (e.key === 'Enter') { e.preventDefault(); el.blur(); }
+    /* ══════════════════ LANG BARS ══════════════════ */
+    function bindLangBars() {
+      document.querySelectorAll('.lang-bar').forEach(bar => {
+        bar.addEventListener('click', function (e) {
+          const rect = this.getBoundingClientRect();
+          const pct = Math.round(((e.clientX - rect.left) / rect.width) * 100);
+          this.querySelector('.lang-bar-fill').style.width = pct + '%';
+          saveAll();
         });
-      }
-    });
+      });
+    }
+    bindLangBars();
 
-    // Photo upload
-    document.getElementById('photo-input').addEventListener('change', function (e) {
+    /* ══════════════════ PHOTO ══════════════════ */
+    function bindPhotoArea() {
+      const area = document.getElementById('photo-area');
+      const input = document.getElementById('photo-input');
+      if (area) area.onclick = () => input && input.click();
+      if (input) input.addEventListener('change', photoUpload);
+    }
+    bindPhotoArea();
+
+    function photoUpload(e) {
       const file = e.target.files[0];
       if (!file) return;
       const reader = new FileReader();
       reader.onload = function (ev) {
         const img = document.getElementById('photo-preview');
         const ph = document.getElementById('photo-ph');
-        img.src = ev.target.result;
-        img.style.display = 'block';
-        ph.style.display = 'none';
-        const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-        try {
-          data['photo-src'] = ev.target.result;
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-        } catch (e) {
-          console.warn('Foto grande demais para salvar no localStorage.');
-        }
+        if (img) { img.src = ev.target.result; img.style.display = 'block'; }
+        if (ph) { ph.style.display = 'none'; }
+        saveAll();
       };
       reader.readAsDataURL(file);
-    });
+    }
 
+    /* ══════════════════ REMOVE ══════════════════ */
+    function removeBlock(btn) {
+      btn.closest('.dyn-block').remove();
+      saveAll();
+    }
+
+    function removeTag(btn) {
+      btn.closest('.tag').remove();
+      saveAll();
+    }
+
+    function removeLi(btn) {
+      btn.closest('li').remove();
+      saveAll();
+    }
+
+    function removeBadge(btn) {
+      btn.closest('.badge-wrap').remove();
+      saveAll();
+    }
+
+    /* ══════════════════ ADD ══════════════════ */
+    function addEdu() {
+      const list = document.getElementById('edu-list');
+      const div = document.createElement('div');
+      div.className = 'edu dyn-block';
+      div.innerHTML =
+        '<button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>' +
+        '<div class="edu-deg" contenteditable="true">Grau em Seu Curso</div>' +
+        '<div class="edu-school" contenteditable="true">Nome da Instituição</div>' +
+        '<div class="edu-year" contenteditable="true">Concluído Mês. Ano</div>';
+      list.appendChild(div);
+      div.querySelector('[contenteditable]').focus();
+      saveAll();
+    }
+
+    function addTag(containerId) {
+      const container = document.getElementById(containerId);
+      const span = document.createElement('span');
+      span.className = 'tag';
+      span.contentEditable = 'true';
+      span.innerHTML = 'Nova tag<button class="tag-remove" onclick="removeTag(this)">×</button>';
+      container.appendChild(span);
+      span.focus();
+      saveAll();
+    }
+
+    function addLang() {
+      const list = document.getElementById('lang-list');
+      const div = document.createElement('div');
+      div.className = 'lang-item dyn-block';
+      div.innerHTML =
+        '<button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>' +
+        '<div class="lang-row">' +
+        '<span class="lang-name" contenteditable="true">Idioma</span>' +
+        '<span class="lang-lvl" contenteditable="true">Nível</span>' +
+        '</div>' +
+        '<div class="lang-bar" title="Clique para ajustar nível"><div class="lang-bar-fill" style="width:50%"></div></div>';
+      list.appendChild(div);
+      div.querySelector('.lang-bar').addEventListener('click', function (e) {
+        const rect = this.getBoundingClientRect();
+        const pct = Math.round(((e.clientX - rect.left) / rect.width) * 100);
+        this.querySelector('.lang-bar-fill').style.width = pct + '%';
+        saveAll();
+      });
+      div.querySelector('[contenteditable]').focus();
+      saveAll();
+    }
+
+    function addCourse() {
+      const list = document.getElementById('courses-list');
+      const div = document.createElement('div');
+      div.className = 'course dyn-block';
+      div.innerHTML =
+        '<button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>' +
+        '<span contenteditable="true">Nome do Curso - Ano</span>';
+      list.appendChild(div);
+      div.querySelector('[contenteditable]').focus();
+      saveAll();
+    }
+
+    function addLi(btn) {
+      const ul = btn.closest('.exp').querySelector('.exp-list');
+      const li = document.createElement('li');
+      li.contentEditable = 'true';
+      li.innerHTML = 'Nova responsabilidade ou conquista.<button class="li-remove" onclick="removeLi(this)">×</button>';
+      ul.appendChild(li);
+      li.focus();
+      saveAll();
+    }
+
+    function addBadge(btn) {
+      const exp = btn.closest('.exp');
+      // Only one badge per exp
+      if (exp.querySelector('.badge-wrap')) return;
+      const wrap = document.createElement('div');
+      wrap.className = 'badge-wrap';
+      wrap.innerHTML =
+        '<span class="badge" contenteditable="true">Conquista ou reconhecimento relevante</span>' +
+        '<button class="badge-remove" onclick="removeBadge(this)">×</button>';
+      const controls = exp.querySelector('.exp-inline-controls');
+      controls.insertAdjacentElement('afterend', wrap);
+      wrap.querySelector('[contenteditable]').focus();
+      saveAll();
+    }
+
+    function addExp() {
+      const list = document.getElementById('exp-list');
+      const div = document.createElement('div');
+      div.className = 'exp dyn-block';
+      div.innerHTML =
+        '<button class="dyn-remove" onclick="removeBlock(this)" title="Remover experiência">×</button>' +
+        '<div class="exp-role" contenteditable="true">Cargo</div>' +
+        '<div class="exp-co" contenteditable="true">Nome da Empresa</div>' +
+        '<div class="exp-period" contenteditable="true">Mês Ano - Mês Ano</div>' +
+        '<ul class="exp-list">' +
+        '<li contenteditable="true">Descrição da responsabilidade ou conquista.<button class="li-remove" onclick="removeLi(this)">×</button></li>' +
+        '</ul>' +
+        '<div class="exp-inline-controls">' +
+        '<button class="dyn-add-btn" onclick="addLi(this)">+ Item</button>' +
+        '<button class="dyn-add-btn" onclick="addBadge(this)">+ Destaque</button>' +
+        '</div>';
+      list.appendChild(div);
+      div.querySelector('[contenteditable]').focus();
+      saveAll();
+    }
+
+    /* ══════════════════ INIT ══════════════════ */
     loadAll();
   </script>
 </body>
