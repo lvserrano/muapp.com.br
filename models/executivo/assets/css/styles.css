@@ -559,7 +559,7 @@ body {
 .dyn-remove {
   position: absolute;
   top: 1px;
-  right: -20px;
+  right: 0px;
   width: 15px;
   height: 15px;
   background: #d94040;
