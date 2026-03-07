@@ -4,509 +4,72 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Levi Serrano — Designer Gráfico</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <style>
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --red: #C0392B;
-      --red-dark: #922B21;
-      --red-light: #E74C3C;
-      --cream: #FAF8F4;
-      --dark: #1A1A1A;
-      --mid: #4A4A4A;
-      --light: #8A8A8A;
-      --rule: #E0D8D0;
-      --col-left: 220px;
-      --col-right: 1fr;
-    }
-
-    @media print {
-      @page {
-        size: A4 portrait;
-        margin: 0;
-      }
-
-      html,
-      body {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-        width: 210mm;
-        height: 297mm;
-        margin: 0;
-        padding: 0;
-        background: none;
-      }
-
-      body {
-        display: block;
-        padding: 0;
-      }
-
-      .page {
-        width: 210mm !important;
-        height: 297mm !important;
-        min-height: unset !important;
-        box-shadow: none !important;
-        overflow: hidden !important;
-        page-break-after: avoid;
-        break-after: avoid;
-      }
-    }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: #E8E4DF;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-    }
-
-    .page {
-      width: 210mm;
-      min-height: 297mm;
-      background: var(--cream);
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25), 0 4px 16px rgba(0, 0, 0, 0.1);
-    }
-
-    /* ── HEADER ── */
-    .header {
-      background: var(--dark);
-      display: grid;
-      grid-template-columns: auto 1fr;
-      align-items: center;
-      gap: 0;
-      padding: 0;
-      position: relative;
-    }
-
-    /* Red accent bar on left */
-    .header-photo-col {
-      background: var(--red);
-      padding: 18px 20px 18px 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      height: 100%;
-    }
-
-    /* Angled cut on right side of red column */
-    .header-photo-col::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: -22px;
-      width: 0;
-      height: 0;
-      border-left: 22px solid var(--red);
-      border-top: 0px solid transparent;
-      border-bottom: 130px solid transparent;
-    }
-
-    .photo-frame {
-      width: 88px;
-      height: 88px;
-      border-radius: 50%;
-      border: 2.5px solid rgba(255, 255, 255, 0.45);
-      overflow: hidden;
-      background: rgba(255, 255, 255, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-      flex-shrink: 0;
-    }
-
-    .photo-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    /* Right side of header: name + contact in two columns */
-    .header-info {
-      padding: 18px 24px 18px 40px;
-      display: grid;
-      grid-template-rows: auto auto;
-      gap: 10px;
-    }
-
-    .header-top {
-      display: flex;
-      align-items: baseline;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-
-    .name {
-      font-family: 'Playfair Display', serif;
-      font-weight: 900;
-      font-size: 22px;
-      color: #FFFFFF;
-      line-height: 1.1;
-      letter-spacing: -0.3px;
-      white-space: nowrap;
-    }
-
-    .role-tag {
-      display: inline-block;
-      background: var(--red);
-      color: #fff;
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      padding: 3px 10px;
-      border-radius: 2px;
-      white-space: nowrap;
-      position: relative;
-      top: -1px;
-    }
-
-    /* Contact info: two columns side by side */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3px 20px;
-    }
-
-    .contact-item {
-      font-size: 10px;
-      color: rgba(255, 255, 255, 0.6);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-weight: 400;
-      white-space: nowrap;
-    }
-
-    .contact-item .dot {
-      display: inline-block;
-      width: 3.5px;
-      height: 3.5px;
-      background: var(--red-light);
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    /* ── BODY LAYOUT ── */
-    .body {
-      display: grid;
-      grid-template-columns: var(--col-left) var(--col-right);
-      min-height: calc(297mm - 130px);
-    }
-
-    /* ── LEFT SIDEBAR ── */
-    .sidebar {
-      background: #222222;
-      padding: 24px 18px;
-      color: #fff;
-    }
-
-    .sidebar-section {
-      margin-bottom: 24px;
-    }
-
-    .sidebar-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 10px;
-      font-weight: 700;
-      color: var(--red-light);
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-      padding-bottom: 5px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .skill-item {
-      margin-bottom: 10px;
-    }
-
-    .skill-name {
-      font-size: 10.5px;
-      font-weight: 500;
-      color: rgba(255, 255, 255, 0.85);
-      margin-bottom: 4px;
-      display: block;
-    }
-
-    .skill-bar-bg {
-      height: 3px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
-    .skill-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--red), var(--red-light));
-      border-radius: 2px;
-    }
-
-    .soft-skill {
-      display: flex;
-      align-items: flex-start;
-      gap: 7px;
-      margin-bottom: 7px;
-    }
-
-    .soft-skill::before {
-      content: '▸';
-      color: var(--red-light);
-      font-size: 10px;
-      margin-top: 1px;
-      flex-shrink: 0;
-    }
-
-    .soft-skill span {
-      font-size: 10.5px;
-      color: rgba(255, 255, 255, 0.72);
-      line-height: 1.4;
-    }
-
-    .edu-item {
-      margin-bottom: 12px;
-    }
-
-    .edu-degree {
-      font-size: 10.5px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.88);
-      line-height: 1.3;
-      margin-bottom: 2px;
-    }
-
-    .edu-inst {
-      font-size: 9.5px;
-      color: rgba(255, 255, 255, 0.42);
-      line-height: 1.3;
-    }
-
-    /* ── RIGHT MAIN CONTENT ── */
-    .main {
-      padding: 24px 26px;
-    }
-
-    .section {
-      margin-bottom: 22px;
-    }
-
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--dark);
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .section-title::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, var(--red) 0%, var(--rule) 100%);
-    }
-
-    .objetivo-text {
-      font-size: 11px;
-      color: var(--mid);
-      line-height: 1.7;
-      border-left: 3px solid var(--red);
-      padding-left: 12px;
-      font-style: italic;
-    }
-
-    .job {
-      margin-bottom: 16px;
-      position: relative;
-      padding-left: 14px;
-    }
-
-    .job::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 6px;
-      width: 5px;
-      height: 5px;
-      background: var(--red);
-      border-radius: 50%;
-    }
-
-    .job-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 2px;
-      gap: 8px;
-    }
-
-    .job-title {
-      font-size: 11.5px;
-      font-weight: 600;
-      color: var(--dark);
-      line-height: 1.3;
-    }
-
-    .job-period {
-      font-size: 9.5px;
-      color: var(--red);
-      font-weight: 500;
-      white-space: nowrap;
-      background: rgba(192, 57, 43, 0.07);
-      padding: 2px 7px;
-      border-radius: 2px;
-      flex-shrink: 0;
-    }
-
-    .job-company {
-      font-size: 10px;
-      color: var(--light);
-      margin-bottom: 6px;
-      font-weight: 400;
-    }
-
-    .job-bullets {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .job-bullets li {
-      font-size: 10px;
-      color: var(--mid);
-      line-height: 1.55;
-      padding-left: 12px;
-      position: relative;
-    }
-
-    .job-bullets li::before {
-      content: '—';
-      position: absolute;
-      left: 0;
-      color: var(--red);
-      font-size: 9px;
-      top: 1px;
-    }
-
-    .tools-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 7px;
-    }
-
-    .tool-card {
-      background: white;
-      border: 1px solid var(--rule);
-      border-left: 3px solid var(--red);
-      padding: 7px 10px;
-      border-radius: 0 4px 4px 0;
-    }
-
-    .tool-card-name {
-      font-size: 10.5px;
-      font-weight: 600;
-      color: var(--dark);
-      margin-bottom: 2px;
-    }
-
-    .tool-card-desc {
-      font-size: 9.5px;
-      color: var(--light);
-      line-height: 1.4;
-    }
-
-    .courses-list {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .course-item {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      font-size: 10px;
-      color: var(--mid);
-    }
-
-    .course-item::before {
-      content: '◆';
-      color: var(--red);
-      font-size: 6px;
-      flex-shrink: 0;
-      position: relative;
-      top: -1px;
-    }
-
-    .footer-strip {
-      background: var(--dark);
-      padding: 7px 26px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .footer-strip span {
-      font-size: 8.5px;
-      color: rgba(255, 255, 255, 0.3);
-      letter-spacing: 0.08em;
-    }
-
-    .footer-strip .footer-dots {
-      display: flex;
-      gap: 4px;
-    }
-
-    .footer-strip .footer-dots span {
-      width: 5px;
-      height: 5px;
-      background: var(--red);
-      border-radius: 50%;
-      opacity: 0.6;
-    }
-  </style>
+  <title>Currículo Editável — Modelo Editorial</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
 <body>
-  <div class="page">
+
+  <!-- BACK NAVBAR -->
+  <nav class="back-nav">
+    <a href="../../index.html" class="back-nav-logo">port<span>.</span>fólio</a>
+    <div class="back-nav-right">
+      <span class="back-nav-label">Modelo de Currículo</span>
+      <a href="../../index.html" class="back-nav-btn">← Voltar ao site</a>
+    </div>
+  </nav>
+
+  <div class="saved-toast" id="toast">✓ Salvo automaticamente</div>
+
+  <div class="page" id="cv">
 
     <!-- HEADER -->
     <div class="header">
-      <div class="header-photo-col">
+      <div class="header-photo-col" id="photo-area" title="Clique para adicionar sua foto">
         <div class="photo-frame">
-          <img src="foto.jpg" alt="Foto de Levi Serrano">
+          <img id="photo-preview" src="" alt="Foto">
+          <div class="photo-ph" id="photo-ph">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
+            </svg>
+            <span>Clique para<br>adicionar foto</span>
+          </div>
         </div>
       </div>
+      <input type="file" id="photo-input" accept="image/*">
 
       <div class="header-info">
         <div class="header-top">
-          <div class="name">Levi Meira de Oliveira Serrano</div>
-          <span class="role-tag">Designer Gráfico</span>
+          <div class="name" contenteditable="true">Nome Completo</div>
+          <span class="role-tag" contenteditable="true">Área de Atuação</span>
         </div>
-        <div class="contact-grid">
-          <div class="contact-item"><span class="dot"></span> Campo Grande, Rio de Janeiro</div>
-          <div class="contact-item"><span class="dot"></span> linkedin.com/in/lvsdev</div>
-          <div class="contact-item"><span class="dot"></span> (32) 98458-5393</div>
-          <div class="contact-item"><span class="dot"></span> lvserrano.github.io</div>
-          <div class="contact-item"><span class="dot"></span> lvserrano@outlook.com</div>
+        <div class="contact-grid" id="contact-grid">
+          <div class="contact-item dyn-block">
+            <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+            <span class="dot"></span>
+            <span contenteditable="true">Cidade — Estado</span>
+          </div>
+          <div class="contact-item dyn-block">
+            <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+            <span class="dot"></span>
+            <span contenteditable="true">linkedin.com/in/seu-perfil</span>
+          </div>
+          <div class="contact-item dyn-block">
+            <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+            <span class="dot"></span>
+            <span contenteditable="true">(00) 00000-0000</span>
+          </div>
+          <div class="contact-item dyn-block">
+            <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+            <span class="dot"></span>
+            <span contenteditable="true">seuemail@email.com</span>
+          </div>
+        </div>
+        <div style="margin-top:2px">
+          <div class="dyn-add-row" style="opacity:0; pointer-events:none;" id="contact-add-row">
+            <button class="dyn-add-btn" onclick="addContact()">+ Contato</button>
+          </div>
         </div>
       </div>
     </div>
@@ -517,81 +80,109 @@
       <!-- SIDEBAR -->
       <div class="sidebar">
 
+        <!-- Skills group 1 -->
         <div class="sidebar-section">
-          <div class="sidebar-title">Design</div>
-          <div class="skill-item">
-            <span class="skill-name">Adobe Photoshop</span>
-            <div class="skill-bar-bg">
-              <div class="skill-bar-fill" style="width:90%"></div>
+          <div class="sidebar-title" contenteditable="true">Habilidades</div>
+          <div id="skills-group-1">
+            <div class="skill-item dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <span class="skill-name" contenteditable="true">Habilidade Principal</span>
+              <div class="skill-bar-bg" title="Clique para ajustar nível">
+                <div class="skill-bar-fill" style="width:90%"></div>
+              </div>
+            </div>
+            <div class="skill-item dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <span class="skill-name" contenteditable="true">Segunda Habilidade</span>
+              <div class="skill-bar-bg" title="Clique para ajustar nível">
+                <div class="skill-bar-fill" style="width:78%"></div>
+              </div>
+            </div>
+            <div class="skill-item dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <span class="skill-name" contenteditable="true">Terceira Habilidade</span>
+              <div class="skill-bar-bg" title="Clique para ajustar nível">
+                <div class="skill-bar-fill" style="width:70%"></div>
+              </div>
             </div>
           </div>
-          <div class="skill-item">
-            <span class="skill-name">Adobe Premiere Pro</span>
-            <div class="skill-bar-bg">
-              <div class="skill-bar-fill" style="width:80%"></div>
-            </div>
-          </div>
-          <div class="skill-item">
-            <span class="skill-name">KDenlive</span>
-            <div class="skill-bar-bg">
-              <div class="skill-bar-fill" style="width:75%"></div>
-            </div>
-          </div>
-          <div class="skill-item">
-            <span class="skill-name">PowerPoint / Slides</span>
-            <div class="skill-bar-bg">
-              <div class="skill-bar-fill" style="width:88%"></div>
-            </div>
+          <div class="dyn-add-row">
+            <button class="dyn-add-btn" onclick="addSkill('skills-group-1')">+ Habilidade</button>
           </div>
         </div>
 
+        <!-- Skills group 2 -->
         <div class="sidebar-section">
-          <div class="sidebar-title">Tecnologia</div>
-          <div class="skill-item">
-            <span class="skill-name">Python</span>
-            <div class="skill-bar-bg">
-              <div class="skill-bar-fill" style="width:85%"></div>
+          <div class="sidebar-title" contenteditable="true">Competências</div>
+          <div id="skills-group-2">
+            <div class="skill-item dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <span class="skill-name" contenteditable="true">Competência Técnica</span>
+              <div class="skill-bar-bg" title="Clique para ajustar nível">
+                <div class="skill-bar-fill" style="width:85%"></div>
+              </div>
+            </div>
+            <div class="skill-item dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <span class="skill-name" contenteditable="true">Ferramenta ou Tecnologia</span>
+              <div class="skill-bar-bg" title="Clique para ajustar nível">
+                <div class="skill-bar-fill" style="width:75%"></div>
+              </div>
             </div>
           </div>
-          <div class="skill-item">
-            <span class="skill-name">Google Sheets / Excel</span>
-            <div class="skill-bar-bg">
-              <div class="skill-bar-fill" style="width:82%"></div>
-            </div>
-          </div>
-          <div class="skill-item">
-            <span class="skill-name">PHP / HTML / CSS / JS</span>
-            <div class="skill-bar-bg">
-              <div class="skill-bar-fill" style="width:78%"></div>
-            </div>
+          <div class="dyn-add-row">
+            <button class="dyn-add-btn" onclick="addSkill('skills-group-2')">+ Competência</button>
           </div>
         </div>
 
+        <!-- Formação -->
         <div class="sidebar-section">
           <div class="sidebar-title">Formação</div>
-          <div class="edu-item">
-            <div class="edu-degree">Sistemas de Informação</div>
-            <div class="edu-inst">Estácio de Sá, RJ — 2023</div>
+          <div id="edu-list">
+            <div class="edu-item dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <div class="edu-degree" contenteditable="true">Grau em Seu Curso</div>
+              <div class="edu-inst" contenteditable="true">Nome da Instituição — Ano</div>
+            </div>
+            <div class="edu-item dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <div class="edu-degree" contenteditable="true">Pós-graduação ou Certificação</div>
+              <div class="edu-inst" contenteditable="true">Nome da Instituição — Ano</div>
+            </div>
           </div>
-          <div class="edu-item">
-            <div class="edu-degree">CS50 Harvard no Brasil</div>
-            <div class="edu-inst">Fundação Estudar — 2024</div>
-          </div>
-          <div class="edu-item">
-            <div class="edu-degree">UI Design para Iniciantes</div>
-            <div class="edu-inst">Origamid</div>
+          <div class="dyn-add-row">
+            <button class="dyn-add-btn" onclick="addEdu()">+ Formação</button>
           </div>
         </div>
 
+        <!-- Perfil Comportamental -->
         <div class="sidebar-section">
           <div class="sidebar-title">Perfil</div>
-          <div class="soft-skill"><span>Proatividade e iniciativa</span></div>
-          <div class="soft-skill"><span>Boa comunicação</span></div>
-          <div class="soft-skill"><span>Atenção a detalhes</span></div>
-          <div class="soft-skill"><span>Organização e foco</span></div>
-          <div class="soft-skill"><span>Aprendizado rápido</span></div>
-          <div class="soft-skill"><span>Criatividade aplicada</span></div>
-          <div class="soft-skill"><span>Trabalho em equipe</span></div>
+          <div id="soft-list">
+            <div class="soft-skill dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <span contenteditable="true">Trabalho em equipe</span>
+            </div>
+            <div class="soft-skill dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <span contenteditable="true">Proatividade e iniciativa</span>
+            </div>
+            <div class="soft-skill dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <span contenteditable="true">Organização e foco</span>
+            </div>
+            <div class="soft-skill dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <span contenteditable="true">Boa comunicação</span>
+            </div>
+            <div class="soft-skill dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <span contenteditable="true">Atenção a detalhes</span>
+            </div>
+          </div>
+          <div class="dyn-add-row">
+            <button class="dyn-add-btn" onclick="addSoft()">+ Característica</button>
+          </div>
         </div>
 
       </div>
@@ -599,95 +190,349 @@
       <!-- MAIN CONTENT -->
       <div class="main">
 
+        <!-- OBJETIVO -->
         <div class="section">
           <div class="section-title">Objetivo</div>
-          <p class="objetivo-text">
-            Atuar como Designer Gráfico na Juliano Home Center, contribuindo com a criação de artes, encartes e materiais visuais de impacto. Trago experiência real na produção de peças gráficas para o varejo, edição de vídeo e automação de processos — aliando criatividade à eficiência.
-          </p>
+          <p class="objetivo-text" contenteditable="true">Atuar na área de <strong>Sua Área Principal</strong>, contribuindo com sua experiência e habilidades para entregar resultados concretos. Descreva aqui seu diferencial, o que você traz de valor e o tipo de empresa ou projeto em que quer estar.</p>
         </div>
 
-        <div class="section">
-          <div class="section-title">Ferramentas de Design</div>
-          <div class="tools-grid">
-            <div class="tool-card">
-              <div class="tool-card-name">Adobe Photoshop</div>
-              <div class="tool-card-desc">Encartes, artes para redes sociais e materiais de PDV</div>
+        <!-- FERRAMENTAS / CARDS -->
+        <div class="section section-wrap">
+          <div class="section-title">Ferramentas &amp; Especialidades</div>
+          <div class="tools-grid" id="tools-grid">
+            <div class="tool-card dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <div class="tool-card-name" contenteditable="true">Ferramenta ou Área 1</div>
+              <div class="tool-card-desc" contenteditable="true">Descreva como você usa isso no dia a dia</div>
             </div>
-            <div class="tool-card">
-              <div class="tool-card-name">Adobe Premiere Pro</div>
-              <div class="tool-card-desc">Edição de vídeos promocionais e conteúdo institucional</div>
+            <div class="tool-card dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <div class="tool-card-name" contenteditable="true">Ferramenta ou Área 2</div>
+              <div class="tool-card-desc" contenteditable="true">Descreva como você usa isso no dia a dia</div>
             </div>
-            <div class="tool-card">
-              <div class="tool-card-name">KDenlive</div>
-              <div class="tool-card-desc">Produção e edição de vídeo em plataforma Linux</div>
+            <div class="tool-card dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <div class="tool-card-name" contenteditable="true">Ferramenta ou Área 3</div>
+              <div class="tool-card-desc" contenteditable="true">Descreva como você usa isso no dia a dia</div>
             </div>
-            <div class="tool-card">
-              <div class="tool-card-name">PowerPoint / Canva</div>
-              <div class="tool-card-desc">Apresentações, materiais internos e de fornecedores</div>
+            <div class="tool-card dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <div class="tool-card-name" contenteditable="true">Ferramenta ou Área 4</div>
+              <div class="tool-card-desc" contenteditable="true">Descreva como você usa isso no dia a dia</div>
             </div>
+          </div>
+          <div class="dyn-add-row">
+            <button class="dyn-add-btn" onclick="addToolCard()">+ Card</button>
           </div>
         </div>
 
-        <div class="section">
+        <!-- EXPERIÊNCIA -->
+        <div class="section section-wrap">
           <div class="section-title">Experiência</div>
+          <div id="exp-list">
 
-          <div class="job">
-            <div class="job-header">
-              <div class="job-title">Designer / Assistente de Marketing</div>
-              <span class="job-period">Fev 2023 – Mai 2024</span>
+            <div class="job dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover experiência">×</button>
+              <div class="job-header">
+                <div class="job-title" contenteditable="true">Cargo Atual</div>
+                <span class="job-period" contenteditable="true">Mês Ano – Atual</span>
+              </div>
+              <div class="job-company" contenteditable="true">Nome da Empresa — Cidade, Estado</div>
+              <ul class="job-bullets">
+                <li contenteditable="true">Descrição da principal responsabilidade e resultado gerado na função.<button class="li-remove" onclick="removeLi(this)">×</button></li>
+                <li contenteditable="true">Atividade relevante com impacto mensurável no departamento ou empresa.<button class="li-remove" onclick="removeLi(this)">×</button></li>
+                <li contenteditable="true">Projeto ou iniciativa que demonstra sua competência técnica ou de gestão.<button class="li-remove" onclick="removeLi(this)">×</button></li>
+              </ul>
+              <div class="job-inline-controls">
+                <button class="dyn-add-btn" onclick="addLi(this)">+ Item</button>
+              </div>
             </div>
-            <div class="job-company">Vivenci Supermercado — Espera Feliz, MG</div>
-            <ul class="job-bullets">
-              <li>Criação de encartes semanais e artes para redes sociais usando Adobe Photoshop.</li>
-              <li>Edição de vídeos promocionais e institucionais com Premiere Pro e KDenlive.</li>
-              <li>Desenvolvimento do site institucional da empresa (PHP, HTML, CSS, JS).</li>
-              <li>Criação de apresentações visuais para fornecedores e ações promocionais.</li>
-              <li>Desenvolvimento de ferramentas de automação para otimizar rotinas do marketing.</li>
-              <li>Apoio na gestão de patrocínios e comunicação com fornecedores.</li>
-            </ul>
+
+            <div class="job dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover experiência">×</button>
+              <div class="job-header">
+                <div class="job-title" contenteditable="true">Cargo Anterior</div>
+                <span class="job-period" contenteditable="true">Mês Ano – Mês Ano</span>
+              </div>
+              <div class="job-company" contenteditable="true">Nome da Empresa Anterior — Cidade, Estado</div>
+              <ul class="job-bullets">
+                <li contenteditable="true">Descrição das principais atividades e responsabilidades exercidas.<button class="li-remove" onclick="removeLi(this)">×</button></li>
+                <li contenteditable="true">Resultado ou entrega importante realizada nessa posição.<button class="li-remove" onclick="removeLi(this)">×</button></li>
+              </ul>
+              <div class="job-inline-controls">
+                <button class="dyn-add-btn" onclick="addLi(this)">+ Item</button>
+              </div>
+            </div>
+
           </div>
-
-          <div class="job">
-            <div class="job-header">
-              <div class="job-title">MEI — Design, TI e Automação</div>
-              <span class="job-period">Mai 2024 – Atual</span>
-            </div>
-            <div class="job-company">Autônomo — Campo Grande, RJ</div>
-            <ul class="job-bullets">
-              <li>Criação de materiais visuais e comunicação para pequenas empresas.</li>
-              <li>Desenvolvimento de soluções automatizadas (Google Sheets, Python, Apps Script).</li>
-              <li>Suporte técnico remoto e atendimento direto a clientes.</li>
-            </ul>
-          </div>
-
-          <div class="job">
-            <div class="job-header">
-              <div class="job-title">Operador de Corte e Dobra</div>
-              <span class="job-period">2019 – 2022</span>
-            </div>
-            <div class="job-company">Gerdau — Rio de Janeiro, RJ</div>
-            <ul class="job-bullets">
-              <li>Reconhecido 3× como Destaque de Qualidade.</li>
-              <li>Desenvolveu automações internas premiadas que reduziram paradas de máquina.</li>
-              <li>Participou do programa de transformação digital BeDigital (2018).</li>
-            </ul>
+          <div class="dyn-add-row">
+            <button class="dyn-add-btn" onclick="addExp()">+ Experiência</button>
           </div>
         </div>
 
-        <div class="section">
+        <!-- CURSOS -->
+        <div class="section section-wrap">
           <div class="section-title">Cursos Complementares</div>
-          <div class="courses-list">
-            <div class="course-item">UI Design para Iniciantes — Origamid</div>
-            <div class="course-item">Fundamentos de Lógica de Programação — Bradesco Cursos</div>
-            <div class="course-item">Lei Geral de Proteção de Dados (LGPD) — Bradesco Cursos</div>
-            <div class="course-item">Microsoft Excel – Básico — Bradesco Cursos</div>
-            <div class="course-item">Formação de DPOs e Pontos Focais — OAB/SP</div>
+          <div class="courses-list" id="courses-list">
+            <div class="course-item dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <span contenteditable="true">Nome do Curso ou Certificação — Instituição</span>
+            </div>
+            <div class="course-item dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <span contenteditable="true">Nome do Treinamento — Plataforma ou Escola</span>
+            </div>
+            <div class="course-item dyn-block">
+              <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+              <span contenteditable="true">Outro Curso Relevante — Ano</span>
+            </div>
+          </div>
+          <div class="dyn-add-row">
+            <button class="dyn-add-btn" onclick="addCourse()">+ Curso</button>
           </div>
         </div>
 
       </div>
     </div>
 
-    <!-- FOOTER -->
     <div class="footer-strip">
-      <span>LEVI MEIRA DE OLIVEIRA SERRANO · DESIGNER GRÁFICO</span>
+      <span contenteditable="true">Currículo atualizado em 2025</span>
+      <div class="footer-dots">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+  </div><!-- /.page -->
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <span class="toolbar-hint">✏️ Clique para editar &nbsp;·&nbsp; Passe o mouse para + / ×</span>
+    <button class="btn btn-save" onclick="saveAll()">💾 Salvar</button>
+    <button class="btn btn-print" onclick="window.print()">🖨 Imprimir / PDF</button>
+    <button class="btn btn-reset" onclick="resetAll()">↺ Restaurar original</button>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'curriculo_editorial_v1';
+
+    /* ══════════════════ SAVE / LOAD ══════════════════ */
+    function saveAll() {
+      try {
+        localStorage.setItem(STORAGE_KEY, document.getElementById('cv').innerHTML);
+      } catch (e) { console.warn('Erro ao salvar:', e); }
+      showToast();
+    }
+
+    function loadAll() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (!saved) return;
+      try {
+        document.getElementById('cv').innerHTML = saved;
+        bindSkillBars();
+        bindPhotoArea();
+      } catch (e) { console.warn('Erro ao carregar:', e); }
+    }
+
+    function resetAll() {
+      if (confirm('Restaurar todos os campos para os dados originais?')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+      }
+    }
+
+    function showToast() {
+      const t = document.getElementById('toast');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    }
+
+    // Auto-save on any edit
+    let saveTimer;
+    document.addEventListener('input', () => {
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(saveAll, 800);
+    });
+
+    /* ══════════════════ SKILL BARS ══════════════════ */
+    function bindSkillBars() {
+      document.querySelectorAll('.skill-bar-bg').forEach(bar => {
+        bar.addEventListener('click', function (e) {
+          const rect = this.getBoundingClientRect();
+          const pct = Math.round(((e.clientX - rect.left) / rect.width) * 100);
+          this.querySelector('.skill-bar-fill').style.width = pct + '%';
+          saveAll();
+        });
+      });
+    }
+    bindSkillBars();
+
+    /* ══════════════════ PHOTO ══════════════════ */
+    function bindPhotoArea() {
+      const area = document.getElementById('photo-area');
+      const input = document.getElementById('photo-input');
+      if (area) area.onclick = () => input && input.click();
+      if (input) input.addEventListener('change', photoUpload);
+    }
+    bindPhotoArea();
+
+    function photoUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (ev) {
+        const img = document.getElementById('photo-preview');
+        const ph = document.getElementById('photo-ph');
+        if (img) { img.src = ev.target.result; img.style.display = 'block'; }
+        if (ph) { ph.style.display = 'none'; }
+        saveAll();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    /* ══════════════════ CONTACT HOVER ══════════════════ */
+    const headerInfo = document.querySelector('.header-info');
+    const contactAddRow = document.getElementById('contact-add-row');
+    if (headerInfo && contactAddRow) {
+      headerInfo.addEventListener('mouseenter', () => {
+        contactAddRow.style.opacity = '1';
+        contactAddRow.style.pointerEvents = 'all';
+      });
+      headerInfo.addEventListener('mouseleave', () => {
+        contactAddRow.style.opacity = '0';
+        contactAddRow.style.pointerEvents = 'none';
+      });
+    }
+
+    /* ══════════════════ REMOVE ══════════════════ */
+    function removeBlock(btn) {
+      btn.closest('.dyn-block').remove();
+      saveAll();
+    }
+
+    function removeLi(btn) {
+      btn.closest('li').remove();
+      saveAll();
+    }
+
+    /* ══════════════════ ADD ══════════════════ */
+    function addContact() {
+      const grid = document.getElementById('contact-grid');
+      const div = document.createElement('div');
+      div.className = 'contact-item dyn-block';
+      div.innerHTML =
+        '<button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>' +
+        '<span class="dot"></span>' +
+        '<span contenteditable="true">Novo contato</span>';
+      grid.appendChild(div);
+      div.querySelector('[contenteditable]').focus();
+      saveAll();
+    }
+
+    function addSkill(groupId) {
+      const group = document.getElementById(groupId);
+      const div = document.createElement('div');
+      div.className = 'skill-item dyn-block';
+      div.innerHTML =
+        '<button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>' +
+        '<span class="skill-name" contenteditable="true">Nova Habilidade</span>' +
+        '<div class="skill-bar-bg" title="Clique para ajustar nível"><div class="skill-bar-fill" style="width:60%"></div></div>';
+      group.appendChild(div);
+      div.querySelector('.skill-bar-bg').addEventListener('click', function (e) {
+        const rect = this.getBoundingClientRect();
+        const pct = Math.round(((e.clientX - rect.left) / rect.width) * 100);
+        this.querySelector('.skill-bar-fill').style.width = pct + '%';
+        saveAll();
+      });
+      div.querySelector('[contenteditable]').focus();
+      saveAll();
+    }
+
+    function addEdu() {
+      const list = document.getElementById('edu-list');
+      const div = document.createElement('div');
+      div.className = 'edu-item dyn-block';
+      div.innerHTML =
+        '<button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>' +
+        '<div class="edu-degree" contenteditable="true">Grau em Seu Curso</div>' +
+        '<div class="edu-inst" contenteditable="true">Nome da Instituição — Ano</div>';
+      list.appendChild(div);
+      div.querySelector('[contenteditable]').focus();
+      saveAll();
+    }
+
+    function addSoft() {
+      const list = document.getElementById('soft-list');
+      const div = document.createElement('div');
+      div.className = 'soft-skill dyn-block';
+      div.innerHTML =
+        '<button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>' +
+        '<span contenteditable="true">Nova característica</span>';
+      list.appendChild(div);
+      div.querySelector('[contenteditable]').focus();
+      saveAll();
+    }
+
+    function addToolCard() {
+      const grid = document.getElementById('tools-grid');
+      const div = document.createElement('div');
+      div.className = 'tool-card dyn-block';
+      div.innerHTML =
+        '<button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>' +
+        '<div class="tool-card-name" contenteditable="true">Ferramenta ou Área</div>' +
+        '<div class="tool-card-desc" contenteditable="true">Descreva como você usa isso no dia a dia</div>';
+      grid.appendChild(div);
+      div.querySelector('[contenteditable]').focus();
+      saveAll();
+    }
+
+    function addCourse() {
+      const list = document.getElementById('courses-list');
+      const div = document.createElement('div');
+      div.className = 'course-item dyn-block';
+      div.innerHTML =
+        '<button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>' +
+        '<span contenteditable="true">Nome do Curso — Instituição</span>';
+      list.appendChild(div);
+      div.querySelector('[contenteditable]').focus();
+      saveAll();
+    }
+
+    function addLi(btn) {
+      const ul = btn.closest('.job').querySelector('.job-bullets');
+      const li = document.createElement('li');
+      li.contentEditable = 'true';
+      li.innerHTML = 'Nova responsabilidade ou conquista.<button class="li-remove" onclick="removeLi(this)">×</button>';
+      ul.appendChild(li);
+      li.focus();
+      saveAll();
+    }
+
+    function addExp() {
+      const list = document.getElementById('exp-list');
+      const div = document.createElement('div');
+      div.className = 'job dyn-block';
+      div.innerHTML =
+        '<button class="dyn-remove" onclick="removeBlock(this)" title="Remover experiência">×</button>' +
+        '<div class="job-header">' +
+        '<div class="job-title" contenteditable="true">Cargo</div>' +
+        '<span class="job-period" contenteditable="true">Mês Ano – Mês Ano</span>' +
+        '</div>' +
+        '<div class="job-company" contenteditable="true">Nome da Empresa — Cidade, Estado</div>' +
+        '<ul class="job-bullets">' +
+        '<li contenteditable="true">Descrição da responsabilidade ou conquista.<button class="li-remove" onclick="removeLi(this)">×</button></li>' +
+        '</ul>' +
+        '<div class="job-inline-controls">' +
+        '<button class="dyn-add-btn" onclick="addLi(this)">+ Item</button>' +
+        '</div>';
+      list.appendChild(div);
+      div.querySelector('[contenteditable]').focus();
+      saveAll();
+    }
+
+    // Load saved data on init
+    loadAll();
+  </script>
+
+</body>
+
+</html>
