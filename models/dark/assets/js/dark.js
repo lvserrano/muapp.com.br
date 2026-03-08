@@ -237,5 +237,31 @@ function addEdu() {
   saveAll();
 }
 
+function addInfo() {
+  const strip = document.getElementById("info-strip");
+  const div = document.createElement("div");
+  div.className = "info-item dyn-block";
+  div.innerHTML = `
+    <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+    <span class="info-icon" contenteditable="true">📌</span>
+    <span class="info-text" contenteditable="true">Nova informação</span>
+  `;
+  strip.appendChild(div);
+  div.querySelector("[contenteditable]").focus();
+  saveAll();
+}
+function addPortfolio() {
+  const list = document.getElementById("portfolio-list");
+  const div = document.createElement("div");
+  div.className = "portfolio-item dyn-block";
+  div.innerHTML = `
+    <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+    <span class="portfolio-icon" contenteditable="true">🔗</span>
+    <span class="portfolio-url" contenteditable="true">novo-link.com</span>
+  `;
+  list.appendChild(div);
+  div.querySelector("[contenteditable]").focus();
+  saveAll();
+}
 // Load on init
 loadAll();

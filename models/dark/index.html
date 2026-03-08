@@ -175,7 +175,7 @@
       <div class="name-block">
         <span class="name-first" contenteditable="true">Seu Primeiro</span>
         <span class="name-last">
-          <span contenteditable="true">NOME </span><span class="accent-word" contenteditable="true">SOBRENOME</span>
+          <span contenteditable="true">NOME</span> <span class="accent-word" contenteditable="true">SOBRENOME</span>
         </span>
       </div>
       <div class="title-tag">
@@ -277,29 +277,53 @@
       </div>
 
       <!-- INFO STRIP -->
-      <div class="info-strip" id="info-strip">
+      <div class="section""> 
+        <div class=" info-strip" id="info-strip">
         <div class="info-item dyn-block">
           <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
-          <span class="info-icon">🚗</span>
+          <span class="info-icon" contenteditable="true">🚗</span>
           <span class="info-text" contenteditable="true">CNH Categoria B</span>
         </div>
         <div class="info-item dyn-block">
           <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
-          <span class="info-icon">📅</span>
+          <span class="info-icon" contenteditable="true">📅</span>
           <span class="info-text" contenteditable="true">Disponibilidade total</span>
         </div>
         <div class="info-item dyn-block">
           <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
-          <span class="info-icon">📌</span>
+          <span class="info-icon" contenteditable="true">📌</span>
           <span class="info-text" contenteditable="true">Dado pessoal relevante</span>
         </div>
       </div>
-
-      <div class="portfolio-bar">
-        <span class="portfolio-label">Portfólio Online</span>
-        <span class="portfolio-url" contenteditable="true">seusite.com.br ou behance.net/seu-perfil</span>
+      <div class="dyn-add-row">
+        <button class="dyn-add-btn" onclick="addInfo()">+ Info</button>
       </div>
-    </main>
+  </div>
+
+  <!-- SEÇÃO PORTFÓLIO DINÂMICA -->
+  <div class="section" id="portfolio-section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">Portfólio Online</span>
+      <div class="section-rule"></div>
+    </div>
+    <div id="portfolio-list">
+      <div class="portfolio-item dyn-block">
+        <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+        <span class="portfolio-icon" contenteditable="true">🔗</span>
+        <span class="portfolio-url" contenteditable="true">seusite.com.br</span>
+      </div>
+      <div class="portfolio-item dyn-block">
+        <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+        <span class="portfolio-icon" contenteditable="true">🎨</span>
+        <span class="portfolio-url" contenteditable="true">behance.net/seu-perfil</span>
+      </div>
+    </div>
+    <div class="dyn-add-row">
+      <button class="dyn-add-btn" onclick="addPortfolio()">+ Link</button>
+    </div>
+  </div>
+  </main>
   </div>
 
   <!-- TOOLBAR -->
