@@ -1,2 +1,1 @@
-adicionar botao para ver medelo
-adicionar formulario para preencher automaticamente depois
+adicionar botao para ver medelo quando estiver preenchendo o curriculo manual

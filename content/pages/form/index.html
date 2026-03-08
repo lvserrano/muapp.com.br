@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MuApp — Preencha seu currículo</title>
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/form.css">
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="nav-logo">Mu<span>App</span></a>
+    <div class="nav-right">
+      <div class="save-indicator" id="saveIndicator">
+        <div class="save-dot"></div>
+        <span>Salvo automaticamente</span>
+      </div>
+      <a href="/" class="nav-back">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M19 12H5M12 5l-7 7 7 7" />
+        </svg>
+        Início
+      </a>
+    </div>
+  </nav>
+
+  <!-- PROGRESS -->
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <!-- LAYOUT -->
+  <div class="form-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-title">Etapas do currículo</div>
+
+      <button class="step-btn active" onclick="goToStep(0)" id="step-btn-0">
+        <div class="step-circle">01</div>
+        <span class="step-label">Dados Pessoais</span>
+      </button>
+      <button class="step-btn" onclick="goToStep(1)" id="step-btn-1">
+        <div class="step-circle">02</div>
+        <span class="step-label">Objetivo Profissional</span>
+      </button>
+      <button class="step-btn" onclick="goToStep(2)" id="step-btn-2">
+        <div class="step-circle">03</div>
+        <span class="step-label">Experiência</span>
+      </button>
+      <button class="step-btn" onclick="goToStep(3)" id="step-btn-3">
+        <div class="step-circle">04</div>
+        <span class="step-label">Formação Acadêmica</span>
+      </button>
+      <div class="sidebar-divider"></div>
+      <button class="step-btn" onclick="goToStep(4)" id="step-btn-4">
+        <div class="step-circle">05</div>
+        <span class="step-label">Habilidades & Ferramentas</span>
+      </button>
+      <button class="step-btn" onclick="goToStep(5)" id="step-btn-5">
+        <div class="step-circle">06</div>
+        <span class="step-label">Idiomas</span>
+      </button>
+      <button class="step-btn" onclick="goToStep(6)" id="step-btn-6">
+        <div class="step-circle">07</div>
+        <span class="step-label">Cursos Complementares</span>
+      </button>
+      <div class="sidebar-divider"></div>
+      <button class="step-btn" onclick="goToStep(7)" id="step-btn-7">
+        <div class="step-circle">08</div>
+        <span class="step-label">Escolher Modelo</span>
+      </button>
+
+      <div class="sidebar-cta">
+        <a href="#modelos" class="btn-escolher" onclick="goToStep(7); return false;">
+          Ver modelos →
+        </a>
+      </div>
+    </aside>
+
+    <!-- FORM AREA -->
+    <main class="form-area">
+
+      <!-- ── STEP 0: DADOS PESSOAIS ── -->
+      <div class="form-section active" id="step-0">
+        <div class="section-header">
+          <span class="section-eyebrow">Etapa 01 de 07</span>
+          <h1 class="section-title">Dados Pessoais</h1>
+          <p class="section-desc">Essas informações aparecem no topo do seu currículo. Coloque apenas o que quiser tornar público.</p>
+        </div>
+
+        <!-- Profile Selector -->
+        <div class="profile-selector-bar">
+          <span class="ps-label">Perfil</span>
+          <button class="profile-btn active" id="pb-primemprego" onclick="setProfile('primemprego')">🎓 Primeiro emprego <span class="profile-badge">Estudante</span></button>
+          <button class="profile-btn" id="pb-programador" onclick="setProfile('programador')">💻 Programador <span class="profile-badge">Dev</span></button>
+          <button class="profile-btn" id="pb-designer" onclick="setProfile('designer')">🎨 Designer <span class="profile-badge">UX/UI</span></button>
+          <button class="profile-btn" id="pb-cientista" onclick="setProfile('cientista')">🔬 Cientista <span class="profile-badge">Research</span></button>
+        </div>
+
+        <!-- Foto -->
+        <div style="margin-bottom:2rem">
+          <label style="display:block;margin-bottom:0.75rem">Foto de Perfil <span style="color:var(--muted);font-weight:300;text-transform:none;letter-spacing:0">(opcional)</span></label>
+          <div class="photo-upload-area">
+            <div class="photo-preview" id="photoPreview" onclick="document.getElementById('photoInput').click()">
+              <span>👤</span>
+            </div>
+            <div class="photo-upload-info">
+              <p>Use uma foto profissional com fundo neutro. Formatos: JPG, PNG. Máximo 2MB.</p>
+              <button class="btn-upload" onclick="document.getElementById('photoInput').click()">
+                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" />
+                </svg>
+                Enviar foto
+              </button>
+              <input type="file" id="photoInput" accept="image/*" onchange="handlePhoto(this)">
+            </div>
+          </div>
+        </div>
+
+        <div class="fields-grid">
+          <div class="field span-2">
+            <div class="label-row">
+              <label>Nome completo <span class="required">*</span></label>
+              <div class="field-tooltip-wrap">
+                <i class="tooltip-icon" tabindex="0">?</i>
+                <div class="tooltip-bubble">Use seu nome civil completo como consta em documentos. Evite apelidos ou abreviações.</div>
+              </div>
+            </div>
+            <input type="text" id="nome" autocomplete="off" data-lpignore="true" spellcheck="false" placeholder="Ex: Ana Carolina Silva" oninput="autosave(); validateField(this, v => v.trim().split(' ').length >= 2, 'Digite nome e sobrenome')">
+            <span class="field-msg" id="msg-nome"></span>
+          </div>
+          <div class="field">
+            <div class="label-row">
+              <label>Cargo / Título profissional <span class="required">*</span></label>
+              <div class="field-tooltip-wrap">
+                <i class="tooltip-icon" tabindex="0">?</i>
+                <div class="tooltip-bubble">Escreva o cargo que você busca ou já ocupa. Este título aparece logo abaixo do seu nome no currículo.</div>
+              </div>
+            </div>
+            <input type="text" id="cargo" autocomplete="off" data-lpignore="true" placeholder="Ex: Designer Gráfico · UX" oninput="autosave(); validateField(this, v => v.trim().length >= 3, 'Digite um título válido')">
+            <span class="field-msg" id="msg-cargo"></span>
+          </div>
+          <div class="field">
+            <div class="label-row">
+              <label>Localização</label>
+              <div class="field-tooltip-wrap">
+                <i class="tooltip-icon" tabindex="0">?</i>
+                <div class="tooltip-bubble">Cidade e estado onde você mora ou pretende trabalhar. Exemplo: Rio de Janeiro, RJ.</div>
+              </div>
+            </div>
+            <input type="text" id="cidade" autocomplete="off" data-lpignore="true" placeholder="Ex: Rio de Janeiro, RJ" oninput="autosave()">
+          </div>
+          <div class="field">
+            <div class="label-row">
+              <label>Telefone / WhatsApp</label>
+              <div class="field-tooltip-wrap">
+                <i class="tooltip-icon" tabindex="0">?</i>
+                <div class="tooltip-bubble">Coloque um número ativo. Recrutadores preferem WhatsApp para contato rápido.</div>
+              </div>
+            </div>
+            <input type="tel" id="telefone" autocomplete="off" data-lpignore="true" placeholder="(21) 99999-9999" oninput="autosave(); formatPhone(this); validateField(this, v => !v || /^\(\d{2}\)\s?\d{4,5}-\d{4}$/.test(v), 'Formato esperado: (21) 99999-9999')">
+            <span class="field-msg" id="msg-telefone"></span>
+          </div>
+          <div class="field">
+            <div class="label-row">
+              <label>E-mail profissional</label>
+              <div class="field-tooltip-wrap">
+                <i class="tooltip-icon" tabindex="0">?</i>
+                <div class="tooltip-bubble">Use um e-mail sóbrio, de preferência com seu nome. Evite apelidos como "gatinho123@...".</div>
+              </div>
+            </div>
+            <input type="email" id="email" autocomplete="off" data-lpignore="true" placeholder="seunome@email.com" oninput="autosave(); validateField(this, v => !v || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), 'E-mail inválido')">
+            <span class="field-msg" id="msg-email"></span>
+          </div>
+          <div class="field">
+            <div class="label-row">
+              <label>LinkedIn</label>
+              <div class="field-tooltip-wrap">
+                <i class="tooltip-icon" tabindex="0">?</i>
+                <div class="tooltip-bubble">Cole o link do seu perfil. Exemplo: linkedin.com/in/ana-silva. Mantenha o perfil atualizado antes de enviar o currículo.</div>
+              </div>
+            </div>
+            <input type="url" id="linkedin" autocomplete="off" data-lpignore="true" placeholder="linkedin.com/in/seuperfil" oninput="autosave()">
+          </div>
+          <div class="field">
+            <div class="label-row">
+              <label id="label-portfolio">Portfólio / Site / GitHub</label>
+              <div class="field-tooltip-wrap">
+                <i class="tooltip-icon" tabindex="0">?</i>
+                <div class="tooltip-bubble" id="tip-portfolio">Link para onde recrutadores podem ver seu trabalho. Mantenha os projetos visíveis e atualizados.</div>
+              </div>
+            </div>
+            <input type="url" id="portfolio" autocomplete="off" data-lpignore="true" placeholder="behance.net/seuperfil" oninput="autosave()">
+          </div>
+        </div>
+
+        <div class="form-nav">
+          <div></div>
+          <button class="btn-next" onclick="nextStep()">
+            Próximo: Objetivo
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── STEP 1: OBJETIVO ── -->
+      <div class="form-section" id="step-1">
+        <div class="section-header">
+          <span class="section-eyebrow">Etapa 02 de 07</span>
+          <h1 class="section-title">Objetivo Profissional</h1>
+          <p class="section-desc">Escreva 2–4 linhas resumindo o que você busca e o que você oferece. Seja direto e específico.</p>
+        </div>
+
+        <div class="fields-grid single">
+          <div class="field">
+            <div class="label-row">
+              <label>Objetivo <span class="required">*</span></label>
+              <div class="field-tooltip-wrap">
+                <i class="tooltip-icon" tabindex="0">?</i>
+                <div class="tooltip-bubble" id="tip-objetivo">Comece com o cargo almejado, cite onde quer atuar e destaque 1–2 diferenciais seus. Evite frases genéricas como "busco crescimento profissional".</div>
+              </div>
+            </div>
+            <textarea id="objetivo" rows="5" autocomplete="off" spellcheck="true" placeholder="Ex: Atuar como Designer Gráfico na [empresa], contribuindo com a criação de artes e materiais visuais de impacto. Trago experiência real em produção de peças gráficas para o varejo, aliando criatividade à eficiência." oninput="autosave(); updateCharCount('objetivo', 60, 600); validateField(this, v => v.trim().length >= 60, 'Escreva pelo menos 2 frases descrevendo seu objetivo')"></textarea>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span class="field-hint" id="hint-objetivo">Dica: mencione a área ou empresa que você busca, e 1-2 diferenciais seus.</span>
+              <span class="char-counter" id="cc-objetivo"></span>
+            </div>
+            <span class="field-msg" id="msg-objetivo"></span>
+          </div>
+        </div>
+
+        <div class="form-nav">
+          <button class="btn-prev" onclick="prevStep()">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M19 12H5M12 5l-7 7 7 7" />
+            </svg>
+            Anterior
+          </button>
+          <button class="btn-next" onclick="nextStep()">
+            Próximo: Experiência
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── STEP 2: EXPERIÊNCIA ── -->
+      <div class="form-section" id="step-2">
+        <div class="section-header">
+          <span class="section-eyebrow">Etapa 03 de 07</span>
+          <h1 class="section-title">Experiência Profissional</h1>
+          <p class="section-desc">Adicione seus empregos mais recentes primeiro. Para cada cargo, descreva 3–5 entregas concretas.</p>
+        </div>
+
+        <!-- Tipo de entrada -->
+        <div class="exp-type-tabs" id="expTypeTabs">
+          <button class="exp-tab active" id="tab-emprego" onclick="setExpType('emprego')">
+            💼 Empregos / Estágios
+          </button>
+          <button class="exp-tab" id="tab-projetos" onclick="setExpType('projetos')">
+            🚀 Projetos Pessoais / Portfólio
+          </button>
+          <button class="exp-tab" id="tab-nunca" onclick="setExpType('nunca')">
+            🙋 Nunca trabalhei ainda
+          </button>
+        </div>
+
+        <!-- Empregos -->
+        <div id="exp-content-emprego">
+          <div class="block-list" id="expList"></div>
+          <button class="btn-add" onclick="addExp()">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+            Adicionar emprego / estágio
+          </button>
+        </div>
+
+        <!-- Projetos -->
+        <div id="exp-content-projetos" style="display:none">
+          <div class="block-list" id="projList"></div>
+          <button class="btn-add" onclick="addProj()">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+            Adicionar projeto
+          </button>
+        </div>
+
+        <!-- Nunca trabalhei -->
+        <div id="exp-content-nunca" style="display:none">
+          <div class="never-worked-box">
+            <span class="nw-icon">✨</span>
+            <div>
+              <strong>Sem problema!</strong>
+              <p>Seus projetos, trabalhos acadêmicos e colaborações voluntárias contam muito. Volte para a aba "Projetos" e adicione o que você já construiu.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-nav">
+          <button class="btn-prev" onclick="prevStep()">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M19 12H5M12 5l-7 7 7 7" />
+            </svg>
+            Anterior
+          </button>
+          <button class="btn-next" onclick="nextStep()">
+            Próximo: Formação
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── STEP 3: FORMAÇÃO ── -->
+      <div class="form-section" id="step-3">
+        <div class="section-header">
+          <span class="section-eyebrow">Etapa 04 de 07</span>
+          <h1 class="section-title">Formação Acadêmica</h1>
+          <p class="section-desc">Inclua graduações, pós-graduações, MBAs e cursos técnicos formais.</p>
+        </div>
+
+        <div class="block-list" id="educList"></div>
+        <button class="btn-add" onclick="addEduc()">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M12 5v14M5 12h14" />
+          </svg>
+          Adicionar formação
+        </button>
+
+        <div class="form-nav">
+          <button class="btn-prev" onclick="prevStep()">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M19 12H5M12 5l-7 7 7 7" />
+            </svg>
+            Anterior
+          </button>
+          <button class="btn-next" onclick="nextStep()">
+            Próximo: Habilidades
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── STEP 4: HABILIDADES ── -->
+      <div class="form-section" id="step-4">
+        <div class="section-header">
+          <span class="section-eyebrow">Etapa 05 de 07</span>
+          <h1 class="section-title">Habilidades & Ferramentas</h1>
+          <p class="section-desc">Liste suas competências técnicas (hard skills) e comportamentais (soft skills). Pressione Enter ou vírgula para adicionar.</p>
+        </div>
+
+        <div class="fields-grid single" style="gap:2rem">
+          <div class="field">
+            <label>Hard Skills — Ferramentas, softwares, tecnologias</label>
+            <div class="tags-input-wrapper" id="hardSkillsWrapper" onclick="document.getElementById('hardSkillsInput').focus()">
+              <input type="text" class="tags-input" id="hardSkillsInput" autocomplete="off" data-lpignore="true" placeholder="Ex: Adobe Photoshop, Python..." onkeydown="handleTagInput(event,'hardSkills')">
+            </div>
+            <span class="field-hint" id="hint-hardskills">Exemplos: Photoshop, Python, AutoCAD, Excel, Figma — tecle Enter para adicionar</span>
+          </div>
+          <div class="field">
+            <label>Soft Skills — Perfil comportamental</label>
+            <div class="tags-input-wrapper" id="softSkillsWrapper" onclick="document.getElementById('softSkillsInput').focus()">
+              <input type="text" class="tags-input" id="softSkillsInput" autocomplete="off" data-lpignore="true" placeholder="Ex: Liderança, Organização..." onkeydown="handleTagInput(event,'softSkills')">
+            </div>
+            <span class="field-hint" id="hint-softskills">Exemplos: Trabalho em equipe, Proatividade, Comunicação clara</span>
+          </div>
+        </div>
+
+        <div class="form-nav">
+          <button class="btn-prev" onclick="prevStep()">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M19 12H5M12 5l-7 7 7 7" />
+            </svg>
+            Anterior
+          </button>
+          <button class="btn-next" onclick="nextStep()">
+            Próximo: Idiomas
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── STEP 5: IDIOMAS ── -->
+      <div class="form-section" id="step-5">
+        <div class="section-header">
+          <span class="section-eyebrow">Etapa 06 de 07</span>
+          <h1 class="section-title">Idiomas</h1>
+          <p class="section-desc">Adicione os idiomas que você fala e seu nível de proficiência.</p>
+        </div>
+
+        <div class="block-list" id="idiomaList"></div>
+        <button class="btn-add" onclick="addIdioma()">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M12 5v14M5 12h14" />
+          </svg>
+          Adicionar idioma
+        </button>
+
+        <div class="form-nav">
+          <button class="btn-prev" onclick="prevStep()">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M19 12H5M12 5l-7 7 7 7" />
+            </svg>
+            Anterior
+          </button>
+          <button class="btn-next" onclick="nextStep()">
+            Próximo: Cursos
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── STEP 6: CURSOS ── -->
+      <div class="form-section" id="step-6">
+        <div class="section-header">
+          <span class="section-eyebrow">Etapa 07 de 07</span>
+          <h1 class="section-title">Cursos Complementares</h1>
+          <p class="section-desc">Certificações, cursos online, workshops e treinamentos relevantes para sua área.</p>
+        </div>
+
+        <div class="block-list" id="cursoList"></div>
+        <button class="btn-add" onclick="addCurso()">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M12 5v14M5 12h14" />
+          </svg>
+          Adicionar curso
+        </button>
+
+        <div class="form-nav">
+          <button class="btn-prev" onclick="prevStep()">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M19 12H5M12 5l-7 7 7 7" />
+            </svg>
+            Anterior
+          </button>
+          <button class="btn-next" onclick="nextStep()" style="background:var(--ink)">
+            Ver modelos 🎉
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── STEP 7: ESCOLHER MODELO ── -->
+      <div class="form-section" id="step-7">
+        <div class="final-section">
+          <span class="final-icon">🎯</span>
+          <h1 class="final-title">Escolha seu <em>modelo</em></h1>
+          <p class="final-desc">Seus dados estão salvos. Agora escolha um modelo — ele já será preenchido automaticamente com tudo que você digitou.</p>
+
+          <div class="models-chooser">
+
+            <!-- Editorial Clássico -->
+            <a class="model-option" href="/models/editorial/">
+              <div class="model-preview-area">
+                <img src="/assets/img/modelos/editorial-classico.png" alt="Editorial Clássico">
+                <div class="model-hover-overlay">
+                  <span>Usar este modelo →</span>
+                </div>
+              </div>
+              <div class="model-option-info">
+                <div class="model-option-meta">
+                  <span class="model-option-name">Editorial Clássico</span>
+                  <span class="badge-free-sm">Grátis</span>
+                </div>
+                <p class="model-option-desc">Sidebar escura com layout bicoluna elegante. Ideal para criativos com personalidade forte.</p>
+                <div class="model-option-tags">
+                  <span class="mtag">Design</span>
+                  <span class="mtag">Marketing</span>
+                  <span class="mtag">Comunicação</span>
+                </div>
+              </div>
+            </a>
+
+            <!-- Executivo Limpo -->
+            <a class="model-option" href="/models/executivo/">
+              <div class="model-preview-area no-img">
+                <div class="model-placeholder-inner">
+                  <span class="ph-icon-sm">🖼</span>
+                  <span class="ph-label-sm">executivo-limpo.png</span>
+                </div>
+                <div class="model-hover-overlay">
+                  <span>Usar este modelo →</span>
+                </div>
+              </div>
+              <div class="model-option-info">
+                <div class="model-option-meta">
+                  <span class="model-option-name">Executivo Limpo</span>
+                  <span class="badge-free-sm">Grátis</span>
+                </div>
+                <p class="model-option-desc">Uma coluna, linhas douradas. Claro, direto e profissional para cargos de gestão e liderança.</p>
+                <div class="model-option-tags">
+                  <span class="mtag">Engenharia</span>
+                  <span class="mtag">Gestão</span>
+                  <span class="mtag">Negócios</span>
+                </div>
+              </div>
+            </a>
+
+            <!-- Dark Moderno -->
+            <a class="model-option" href="/models/dark/">
+              <div class="model-preview-area no-img">
+                <div class="model-placeholder-inner">
+                  <span class="ph-icon-sm">🖼</span>
+                  <span class="ph-label-sm">dark-moderno.png</span>
+                </div>
+                <div class="model-hover-overlay">
+                  <span>Usar este modelo →</span>
+                </div>
+              </div>
+              <div class="model-option-info">
+                <div class="model-option-meta">
+                  <span class="model-option-name">Dark Moderno</span>
+                  <span class="badge-premium-sm">Premium</span>
+                </div>
+                <p class="model-option-desc">Fundo escuro navy, detalhes em vermelho. Destaque absoluto para portfólios criativos e tech.</p>
+                <div class="model-option-tags">
+                  <span class="mtag">Tech</span>
+                  <span class="mtag">Motion / 3D</span>
+                  <span class="mtag">Games</span>
+                </div>
+              </div>
+            </a>
+
+          </div>
+
+          <p class="final-note">
+            Mais modelos chegando em breve. <a href="/modelos.html">Ver todos os modelos →</a>
+          </p>
+        </div>
+
+        <div class="form-nav">
+          <button class="btn-prev" onclick="prevStep()">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M19 12H5M12 5l-7 7 7 7" />
+            </svg>
+            Editar dados
+          </button>
+          <div></div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="assets/js/form.js"></script>
+</body>
+
+</html>
