@@ -247,6 +247,7 @@ function addInfo() {
     <span class="info-text" contenteditable="true">Nova informação</span>
   `;
   strip.appendChild(div);
+  o;
   div.querySelector("[contenteditable]").focus();
   saveAll();
 }
