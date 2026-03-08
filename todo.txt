@@ -1,1 +1,2 @@
 adicionar botao para ver medelo quando estiver preenchendo o curriculo manual
+fazer os modelos de curriculos pegarem as informações do cache
