@@ -74,37 +74,28 @@
     <div class="hero-right">
       <div class="cv-mockup-wrapper">
         <div class="edit-bubble">Clique para editar</div>
-        <div class="cv-mockup" onclick="location.href='/models/editorial/'">
-          <div class="cv-mock-header">
-            <div class="cv-mock-avatar"></div>
-            <div class="cv-mock-name-block">
-              <div class="cv-mock-name">Ana Carolina Silva</div>
-              <div class="cv-mock-role">Designer Gráfico · UX</div>
-            </div>
+        <div class="cv-slideshow">
+          <div class="cv-slide active" data-href="/models/editorial/">
+            <img src="assets/img/modelos/editorial-classico.png" alt="Editorial Clássico" />
+            <div class="cv-slide-label">Editorial Clássico</div>
           </div>
-          <div class="cv-mock-section">
-            <div class="cv-mock-section-title">Experiência</div>
-            <div class="cv-mock-line full accent"></div>
-            <div class="cv-mock-line medium"></div>
-            <div class="cv-mock-line short"></div>
+          <div class="cv-slide" data-href="/models/executivo/">
+            <img src="assets/img/modelos/executivo.png" alt="Executivo Limpo" />
+            <div class="cv-slide-label">Executivo Limpo</div>
           </div>
-          <div class="cv-mock-section">
-            <div class="cv-mock-section-title">Formação</div>
-            <div class="cv-mock-line full accent"></div>
-            <div class="cv-mock-line medium"></div>
+          <div class="cv-slide" data-href="/models/ats/">
+            <img src="assets/img/modelos/ats-pro.png" alt="ATS Pro" />
+            <div class="cv-slide-label">ATS Pro</div>
           </div>
-          <div class="cv-mock-two-col">
-            <div class="cv-mock-section">
-              <div class="cv-mock-section-title">Habilidades</div>
-              <div class="cv-mock-line full"></div>
-              <div class="cv-mock-line medium"></div>
-              <div class="cv-mock-line short"></div>
-            </div>
-            <div class="cv-mock-section">
-              <div class="cv-mock-section-title">Idiomas</div>
-              <div class="cv-mock-line full"></div>
-              <div class="cv-mock-line medium"></div>
-            </div>
+          <div class="cv-slide" data-href="/models/dark/">
+            <img src="assets/img/modelos/dark.png" alt="Dark Moderno" />
+            <div class="cv-slide-label">Dark Moderno</div>
+          </div>
+          <div class="cv-slide-dots">
+            <span class="cv-dot active"></span>
+            <span class="cv-dot"></span>
+            <span class="cv-dot"></span>
+            <span class="cv-dot"></span>
           </div>
         </div>
       </div>
@@ -149,84 +140,59 @@
     <h2 class="section-title reveal">Feitos para <em style="font-style:italic;color:var(--gold)">toda área.</em></h2>
 
     <div class="models-grid">
-      <!-- Modelo 1 -->
       <div class="model-card reveal" onclick="location.href='/models/editorial/'">
-
-        <div class="model-preview preview-1">
-          <div class="prev1-sidebar">
-            <div class="prev1-avatar"></div>
-            <div class="prev1-line accent-line"></div>
-            <div class="prev1-line w80"></div>
-            <div class="prev1-line w60"></div>
-            <div style="margin-top:0.5rem"></div>
-            <div class="prev1-line accent-line"></div>
-            <div class="prev1-line w80"></div>
-            <div class="prev1-line w60"></div>
-            <div class="prev1-line w80"></div>
-          </div>
-          <div class="prev1-main">
-            <div class="prev1-name">Maria<br>Fernanda Costa</div>
-            <div class="prev1-role-tag">Designer Gráfico</div>
-            <div class="p1-section-title">Experiência</div>
-            <div class="p1-line w90"></div>
-            <div class="p1-line w70"></div>
-            <div class="p1-line w90"></div>
-            <div class="p1-section-title">Formação</div>
-            <div class="p1-line w90"></div>
-            <div class="p1-line w50"></div>
-          </div>
+        <div class="model-preview">
+          <img src="assets/img/modelos/editorial-classico.png" alt="Editorial Clássico" />
         </div>
         <div class="model-info">
           <span class="model-name">Editorial Clássico</span>
           <span class="model-badge badge-free">Grátis</span>
         </div>
+        <div class="model-desc">
+          <p>Sidebar escura com layout bicoluna elegante. Ideal para criativos com personalidade forte.</p>
+          <div class="model-tags"><span>Design</span><span>Marketing</span><span>Comunicação</span></div>
+        </div>
       </div>
 
-      <!-- Modelo 2 -->
       <div class="model-card reveal" onclick="location.href='/models/executivo/'" style="transition-delay:0.1s">
-        <div class="model-preview preview-2">
-          <div class="prev2-header">
-            <div class="prev2-name">Roberto Alves</div>
-            <div class="prev2-role">Engenheiro Civil · PMP</div>
-          </div>
-          <div class="prev2-accent"></div>
-          <div class="prev2-line dark"></div>
-          <div class="prev2-line"></div>
-          <div class="prev2-line dark"></div>
-          <div class="prev2-line"></div>
-          <div class="prev2-line dark"></div>
-          <div class="prev2-accent"></div>
-          <div class="prev2-line"></div>
-          <div class="prev2-line dark"></div>
-          <div class="prev2-line"></div>
-          <div class="prev2-line dark"></div>
+        <div class="model-preview">
+          <img src="assets/img/modelos/executivo.png" alt="Executivo Limpo" />
         </div>
         <div class="model-info">
           <span class="model-name">Executivo Limpo</span>
           <span class="model-badge badge-free">Grátis</span>
         </div>
+        <div class="model-desc">
+          <p>Uma coluna, linhas douradas. Claro, direto e profissional para cargos de gestão e liderança.</p>
+          <div class="model-tags"><span>Engenharia</span><span>Gestão</span><span>Negócios</span></div>
+        </div>
       </div>
 
-      <!-- Modelo 3 -->
-      <div class="model-card reveal" onclick="location.href='/models/dark/'" style="transition-delay:0.2s">
-        <div class="model-preview preview-3">
-          <div class="prev3-tag">Designer · Motion · 3D</div>
-          <div class="prev3-name">João <span>Vitor</span><br>da Silva</div>
-          <div class="prev3-divider"></div>
-          <div class="prev3-line"></div>
-          <div class="prev3-line w80" style="width:80%"></div>
-          <div class="prev3-line accent"></div>
-          <div style="margin-top:0.4rem"></div>
-          <div class="prev3-grid">
-            <div class="prev3-skill"></div>
-            <div class="prev3-skill"></div>
-            <div class="prev3-skill"></div>
-            <div class="prev3-skill"></div>
-          </div>
+      <div class="model-card reveal" onclick="location.href='/models/ats/'" style="transition-delay:0.2s">
+        <div class="model-preview">
+          <img src="assets/img/modelos/ats-pro.png" alt="ATS Pro" />
+        </div>
+        <div class="model-info">
+          <span class="model-name">ATS Pro</span>
+          <span class="model-badge badge-ats">ATS / IA</span>
+        </div>
+        <div class="model-desc">
+          <p>Estrutura de coluna única, fonte padrão, hierarquia cristalina. Feito para ser lido por sistemas de triagem automática.</p>
+          <div class="model-tags"><span class="tag-ats">✦ ATS-friendly</span><span class="tag-ats">✦ Leitura por IA</span><span>Todas as áreas</span></div>
+        </div>
+      </div>
+
+      <div class="model-card reveal" onclick="location.href='/models/dark/'" style="transition-delay:0.3s">
+        <div class="model-preview">
+          <img src="assets/img/modelos/dark.png" alt="Dark Moderno" />
         </div>
         <div class="model-info">
           <span class="model-name">Dark Moderno</span>
           <span class="model-badge badge-premium">Premium</span>
+        </div>
+        <div class="model-desc">
+          <p>Fundo escuro navy, detalhes em vermelho. Destaque absoluto para portfólios criativos e tech.</p>
+          <div class="model-tags"><span>Tech</span><span>Motion / 3D</span><span>Games</span></div>
         </div>
       </div>
     </div>
