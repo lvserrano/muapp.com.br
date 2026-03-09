@@ -1,0 +1,710 @@
+/* ══════════════════════════════════════════════
+   ATS Pro — MuApp
+   Filosofia: coluna única, hierarquia clara,
+   zero decoração que confunda parsers ATS.
+   Fonte: Source Serif 4 (cabeçalhos) +
+          Source Sans 3 (corpo) — ambas serifadas/
+          humanistas, excelente OCR e parsing.
+   ══════════════════════════════════════════════ */
+
+:root {
+  --ink: #1a1a1a;
+  --muted: #555555;
+  --rule: #1a1a1a;
+  --rule-light: #cccccc;
+  --accent: #1a1a1a;
+  --paper: #ffffff;
+  --ui-accent: #c8472b; /* só UI, nunca no CV */
+  --ui-muted: #7a7570;
+  --ui-bg: #f5f2ee;
+  --ui-border: rgba(15, 14, 13, 0.12);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
+  background: var(--ui-bg);
+  color: var(--ink);
+  padding-top: 56px; /* nav height */
+}
+
+/* ══ BACK NAV (padrão do site) ══ */
+.back-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 3rem;
+  background: rgba(245, 242, 238, 0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--ui-border);
+}
+
+.back-nav-logo {
+  font-family: "Playfair Display", serif;
+  font-weight: 900;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.back-nav-logo span {
+  color: var(--ui-accent);
+}
+
+.back-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.back-nav-label {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ui-muted);
+}
+
+.back-nav-btn {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #f5f2ee;
+  background: var(--ink);
+  text-decoration: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 2px;
+  transition: background 0.2s;
+}
+.back-nav-btn:hover {
+  background: var(--ui-accent);
+}
+
+/* ══ TOAST ══ */
+.saved-toast {
+  position: fixed;
+  top: 68px;
+  right: 1.5rem;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.55rem 1.1rem;
+  border-radius: 2px;
+  z-index: 300;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    opacity 0.25s,
+    transform 0.25s;
+  pointer-events: none;
+}
+.saved-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ══ TOOLBAR ══ */
+.toolbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 2rem;
+  background: rgba(245, 242, 238, 0.97);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--ui-border);
+}
+
+.toolbar-hint {
+  font-size: 0.78rem;
+  color: var(--ui-muted);
+  margin-right: auto;
+}
+
+.btn {
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 0.5rem 1.1rem;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+}
+.btn-save {
+  background: var(--ink);
+  color: var(--paper);
+}
+.btn-save:hover {
+  background: var(--ui-accent);
+}
+.btn-print {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--ui-border);
+}
+.btn-print:hover {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.btn-reset {
+  background: transparent;
+  color: var(--ui-muted);
+  border-color: transparent;
+  font-size: 0.78rem;
+}
+.btn-reset:hover {
+  color: var(--ui-accent);
+}
+
+/* ══ CV WRAPPER ══ */
+#cv {
+  width: 210mm; /* A4 */
+  min-height: 297mm;
+  margin: 2rem auto 6rem;
+  background: var(--paper);
+  padding: 18mm 18mm 16mm; /* margens ATS recomendadas */
+  box-shadow: 0 4px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* ══ HEADER ══ */
+.cv-header {
+  margin-bottom: 0;
+  text-align: left;
+}
+
+.cv-name {
+  font-family: "Source Serif 4", "Georgia", serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  margin-bottom: 3pt;
+  border: none;
+  outline: none;
+}
+
+.cv-title {
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+  margin-bottom: 7pt;
+}
+
+.cv-contacts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 4pt;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.cv-contact {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.cv-contact-sep {
+  color: var(--rule-light);
+  user-select: none;
+  padding: 0 2pt;
+}
+
+.cv-header-add-row {
+  margin-top: 4pt;
+}
+
+/* ══ DIVIDER ══ */
+.cv-divider {
+  border: none;
+  border-top: 1.5pt solid var(--rule);
+  margin: 8pt 0 0;
+}
+
+/* ══ SECTIONS ══ */
+.cv-section {
+  margin-top: 14pt;
+}
+
+.cv-section-title {
+  font-family: "Source Serif 4", "Georgia", serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  padding-bottom: 3pt;
+  border-bottom: 0.75pt solid var(--rule);
+  margin-bottom: 7pt;
+}
+
+/* ══ OBJETIVO ══ */
+.cv-objective {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink);
+  font-weight: 400;
+}
+.cv-objective strong {
+  font-weight: 600;
+}
+
+/* ══ EXPERIÊNCIA ══ */
+.cv-exp {
+  margin-bottom: 10pt;
+  position: relative;
+}
+.cv-exp:last-child {
+  margin-bottom: 0;
+}
+
+.cv-exp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8pt;
+  margin-bottom: 3pt;
+}
+
+.cv-exp-left {
+  flex: 1;
+}
+
+.cv-exp-role {
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.cv-exp-company {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+.cv-exp-period {
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-align: right;
+  padding-top: 1px;
+}
+
+.cv-bullets {
+  margin: 3pt 0 0 13pt;
+  padding: 0;
+}
+
+.cv-bullets li {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+  margin-bottom: 2px;
+  position: relative;
+}
+.cv-bullets li:last-child {
+  margin-bottom: 0;
+}
+
+/* ══ FORMAÇÃO ══ */
+.cv-edu {
+  margin-bottom: 7pt;
+  position: relative;
+}
+.cv-edu:last-child {
+  margin-bottom: 0;
+}
+
+.cv-edu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8pt;
+}
+
+.cv-edu-left {
+  flex: 1;
+}
+
+.cv-edu-degree {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.cv-edu-school {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+.cv-edu-year {
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-align: right;
+  padding-top: 1px;
+}
+
+/* ══ HABILIDADES — formato "Label: item1, item2, item3" ══
+   Formato de texto puro = parsing ATS perfeito             */
+.cv-skills-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 4pt;
+}
+
+.cv-skill-group {
+  display: flex;
+  align-items: baseline;
+  gap: 6pt;
+  font-size: 13px;
+  line-height: 1.5;
+  position: relative;
+}
+
+.cv-skill-label {
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 110pt;
+}
+
+.cv-skill-label::after {
+  content: ":";
+}
+
+.cv-skill-items {
+  color: var(--ink);
+  font-weight: 400;
+}
+
+/* ══ IDIOMAS ══ */
+#lang-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3pt;
+}
+
+.cv-lang {
+  display: flex;
+  align-items: center;
+  gap: 5pt;
+  font-size: 13px;
+  position: relative;
+}
+
+.cv-lang-name {
+  font-weight: 600;
+  color: var(--ink);
+  min-width: 110pt;
+}
+
+.cv-lang-sep {
+  color: var(--rule-light);
+  user-select: none;
+}
+
+.cv-lang-level {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+/* ══ CURSOS ══ */
+.cv-course {
+  margin-bottom: 5pt;
+  position: relative;
+}
+.cv-course:last-child {
+  margin-bottom: 0;
+}
+
+.cv-course-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8pt;
+}
+
+.cv-course-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1pt;
+}
+
+.cv-course-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.cv-course-inst {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.cv-course-year {
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+/* ══ DYNAMIC CONTROLS (só tela, nunca imprime) ══ */
+.dyn-remove {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: -20px;
+  background: #e53e3e;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  font-size: 11px;
+  line-height: 16px;
+  text-align: center;
+  cursor: pointer;
+  z-index: 10;
+  padding: 0;
+}
+
+.dyn-block {
+  position: relative;
+}
+.dyn-block:hover .dyn-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.li-remove {
+  display: none;
+  background: none;
+  border: none;
+  color: #e53e3e;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0 0 0 4px;
+  vertical-align: middle;
+  line-height: 1;
+}
+.cv-bullets li:hover .li-remove {
+  display: inline;
+}
+
+.dyn-add-btn {
+  background: none;
+  border: 1px dashed var(--rule-light);
+  color: var(--ui-muted);
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+.dyn-add-btn:hover {
+  border-color: var(--ui-accent);
+  color: var(--ui-accent);
+}
+
+.dyn-add-row {
+  margin-top: 5pt;
+}
+
+.exp-inline-controls {
+  margin-top: 4pt;
+}
+
+/* ══ CONTENTEDITABLE ══ */
+[contenteditable]:focus {
+  outline: 1.5px solid rgba(200, 71, 43, 0.5);
+  outline-offset: 1px;
+  border-radius: 1px;
+}
+[contenteditable]:hover:not(:focus) {
+  background: rgba(200, 71, 43, 0.04);
+  border-radius: 1px;
+}
+
+/* ══ PRINT ══ */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  html,
+  body {
+    background: white;
+    padding: 0;
+    margin: 0;
+    width: 210mm;
+  }
+
+  .back-nav,
+  .toolbar,
+  .saved-toast,
+  .dyn-remove,
+  .li-remove,
+  .dyn-add-btn,
+  .dyn-add-row,
+  .exp-inline-controls,
+  .cv-header-add-row {
+    display: none !important;
+  }
+
+  #cv {
+    width: 210mm;
+    min-height: auto;
+    margin: 0;
+    padding: 18mm 18mm 16mm;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  .cv-section {
+    page-break-inside: avoid;
+  }
+  .cv-exp {
+    page-break-inside: avoid;
+  }
+  .cv-edu {
+    page-break-inside: avoid;
+  }
+
+  [contenteditable]:hover,
+  [contenteditable]:focus {
+    outline: none !important;
+    background: none !important;
+  }
+
+  /* Restaura unidades pt corretas para impressão */
+  .cv-name {
+    font-size: 26pt;
+  }
+  .cv-title {
+    font-size: 11pt;
+  }
+  .cv-contacts {
+    font-size: 9.5pt;
+  }
+  .cv-section-title {
+    font-size: 9.5pt;
+  }
+  .cv-exp-role {
+    font-size: 10.5pt;
+  }
+  .cv-exp-company {
+    font-size: 9.5pt;
+  }
+  .cv-exp-period {
+    font-size: 9pt;
+  }
+  .cv-bullets li {
+    font-size: 10pt;
+  }
+  .cv-edu-degree {
+    font-size: 10.5pt;
+  }
+  .cv-edu-school {
+    font-size: 9.5pt;
+  }
+  .cv-edu-year {
+    font-size: 9pt;
+  }
+  .cv-skill-group {
+    font-size: 10pt;
+  }
+  .cv-lang {
+    font-size: 10pt;
+  }
+  .cv-objective {
+    font-size: 10pt;
+  }
+  .cv-course-name {
+    font-size: 10pt;
+  }
+  .cv-course-inst {
+    font-size: 9.5pt;
+  }
+  .cv-course-year {
+    font-size: 9pt;
+  }
+}
+
+/* ══ RESPONSIVE ══ */
+@media (max-width: 760px) {
+  #cv {
+    width: 100%;
+    padding: 6mm 5mm 8mm;
+    margin: 1rem auto 5rem;
+    box-shadow: none;
+  }
+
+  .cv-exp-header,
+  .cv-edu-header,
+  .cv-course-header {
+    flex-direction: column;
+    gap: 2pt;
+  }
+
+  .cv-exp-period,
+  .cv-edu-year,
+  .cv-course-year {
+    text-align: left;
+  }
+
+  .toolbar {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .toolbar-hint {
+    display: none;
+  }
+}

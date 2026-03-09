@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Currículo Editável — Modelo ATS Pro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/ats.css">
+</head>
+
+<body>
+
+  <!-- BACK NAVBAR -->
+  <nav class="back-nav">
+    <a href="/" class="back-nav-logo">Mu<span>App</span></a>
+    <div class="back-nav-right">
+      <span class="back-nav-label">Modelo ATS Pro</span>
+      <a href="/" class="back-nav-btn">← Voltar ao site</a>
+    </div>
+  </nav>
+
+  <div class="saved-toast" id="toast">✓ Salvo automaticamente</div>
+
+  <!-- CV -->
+  <div id="cv">
+
+    <!-- HEADER -->
+    <header class="cv-header">
+      <h1 class="cv-name" contenteditable="true">Nome Completo</h1>
+      <div class="cv-title" contenteditable="true">Cargo Pretendido · Especialidade</div>
+      <div class="cv-contacts" id="contact-list">
+        <span class="cv-contact dyn-block">
+          <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+          <span contenteditable="true">cidade@estado.br</span>
+        </span>
+        <span class="cv-contact-sep">|</span>
+        <span class="cv-contact dyn-block">
+          <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+          <span contenteditable="true">(00) 00000-0000</span>
+        </span>
+        <span class="cv-contact-sep">|</span>
+        <span class="cv-contact dyn-block">
+          <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+          <span contenteditable="true">seuemail@email.com</span>
+        </span>
+        <span class="cv-contact-sep">|</span>
+        <span class="cv-contact dyn-block">
+          <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+          <span contenteditable="true">linkedin.com/in/seu-perfil</span>
+        </span>
+      </div>
+      <div class="cv-header-add-row">
+        <button class="dyn-add-btn" onclick="addContact()">+ Contato</button>
+      </div>
+    </header>
+
+    <div class="cv-divider"></div>
+
+    <!-- OBJETIVO -->
+    <section class="cv-section">
+      <h2 class="cv-section-title">Objetivo Profissional</h2>
+      <p class="cv-objective" contenteditable="true">Profissional com experiência em <strong>sua área principal</strong>, buscando oportunidade para aplicar conhecimentos técnicos e contribuir com resultados sólidos na organização. Comprometido com a entrega de qualidade, aprendizado contínuo e trabalho colaborativo.</p>
+    </section>
+
+    <!-- EXPERIÊNCIA -->
+    <section class="cv-section">
+      <h2 class="cv-section-title">Experiência Profissional</h2>
+      <div id="exp-list">
+
+        <div class="cv-exp dyn-block">
+          <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+          <div class="cv-exp-header">
+            <div class="cv-exp-left">
+              <div class="cv-exp-role" contenteditable="true">Cargo Atual</div>
+              <div class="cv-exp-company" contenteditable="true">Nome da Empresa · Cidade, UF</div>
+            </div>
+            <div class="cv-exp-period" contenteditable="true">Mês Ano – Atual</div>
+          </div>
+          <ul class="cv-bullets">
+            <li contenteditable="true">Descrição da principal responsabilidade com resultado mensurável e impacto no negócio.<button class="li-remove" onclick="removeLi(this)">×</button></li>
+            <li contenteditable="true">Atividade relevante desenvolvida na função com entregas concretas e evidências de desempenho.<button class="li-remove" onclick="removeLi(this)">×</button></li>
+            <li contenteditable="true">Projeto ou iniciativa que demonstra sua competência técnica ou de gestão na área.<button class="li-remove" onclick="removeLi(this)">×</button></li>
+          </ul>
+          <div class="exp-inline-controls">
+            <button class="dyn-add-btn" onclick="addLi(this)">+ Item</button>
+          </div>
+        </div>
+
+        <div class="cv-exp dyn-block">
+          <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+          <div class="cv-exp-header">
+            <div class="cv-exp-left">
+              <div class="cv-exp-role" contenteditable="true">Cargo Anterior</div>
+              <div class="cv-exp-company" contenteditable="true">Nome da Empresa Anterior · Cidade, UF</div>
+            </div>
+            <div class="cv-exp-period" contenteditable="true">Mês Ano – Mês Ano</div>
+          </div>
+          <ul class="cv-bullets">
+            <li contenteditable="true">Descrição das principais atividades e responsabilidades exercidas no período.<button class="li-remove" onclick="removeLi(this)">×</button></li>
+            <li contenteditable="true">Resultado importante entregue ou conquista relevante nessa posição.<button class="li-remove" onclick="removeLi(this)">×</button></li>
+          </ul>
+          <div class="exp-inline-controls">
+            <button class="dyn-add-btn" onclick="addLi(this)">+ Item</button>
+          </div>
+        </div>
+
+      </div>
+      <div class="dyn-add-row">
+        <button class="dyn-add-btn" onclick="addExp()">+ Experiência</button>
+      </div>
+    </section>
+
+    <!-- FORMAÇÃO -->
+    <section class="cv-section">
+      <h2 class="cv-section-title">Formação Acadêmica</h2>
+      <div id="edu-list">
+
+        <div class="cv-edu dyn-block">
+          <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+          <div class="cv-edu-header">
+            <div class="cv-edu-left">
+              <div class="cv-edu-degree" contenteditable="true">Bacharelado em Seu Curso</div>
+              <div class="cv-edu-school" contenteditable="true">Nome da Universidade · Cidade, UF</div>
+            </div>
+            <div class="cv-edu-year" contenteditable="true">Ano – Ano</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="dyn-add-row">
+        <button class="dyn-add-btn" onclick="addEdu()">+ Formação</button>
+      </div>
+    </section>
+
+    <!-- HABILIDADES -->
+    <section class="cv-section">
+      <h2 class="cv-section-title">Habilidades e Competências</h2>
+      <div class="cv-skills-grid" id="skills-grid">
+
+        <div class="cv-skill-group dyn-block">
+          <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+          <span class="cv-skill-label" contenteditable="true">Técnicas</span>
+          <span class="cv-skill-items" contenteditable="true">Habilidade Técnica 1, Habilidade Técnica 2, Habilidade Técnica 3, Habilidade Técnica 4</span>
+        </div>
+
+        <div class="cv-skill-group dyn-block">
+          <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+          <span class="cv-skill-label" contenteditable="true">Comportamentais</span>
+          <span class="cv-skill-items" contenteditable="true">Trabalho em Equipe, Comunicação, Proatividade, Organização</span>
+        </div>
+
+        <div class="cv-skill-group dyn-block">
+          <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+          <span class="cv-skill-label" contenteditable="true">Ferramentas</span>
+          <span class="cv-skill-items" contenteditable="true">Ferramenta 1, Ferramenta 2, Ferramenta 3</span>
+        </div>
+
+      </div>
+      <div class="dyn-add-row">
+        <button class="dyn-add-btn" onclick="addSkillGroup()">+ Grupo</button>
+      </div>
+    </section>
+
+    <!-- IDIOMAS -->
+    <section class="cv-section">
+      <h2 class="cv-section-title">Idiomas</h2>
+      <div id="lang-list">
+
+        <div class="cv-lang dyn-block">
+          <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+          <span class="cv-lang-name" contenteditable="true">Português</span>
+          <span class="cv-lang-sep">–</span>
+          <span class="cv-lang-level" contenteditable="true">Nativo</span>
+        </div>
+
+        <div class="cv-lang dyn-block">
+          <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+          <span class="cv-lang-name" contenteditable="true">Inglês</span>
+          <span class="cv-lang-sep">–</span>
+          <span class="cv-lang-level" contenteditable="true">Intermediário</span>
+        </div>
+
+      </div>
+      <div class="dyn-add-row">
+        <button class="dyn-add-btn" onclick="addLang()">+ Idioma</button>
+      </div>
+    </section>
+
+    <!-- CURSOS -->
+    <section class="cv-section" id="section-courses">
+      <h2 class="cv-section-title">Cursos e Certificações</h2>
+      <div id="courses-list">
+
+        <div class="cv-course dyn-block">
+          <button class="dyn-remove" onclick="removeBlock(this)" title="Remover">×</button>
+          <div class="cv-course-header">
+            <div class="cv-course-left">
+              <span class="cv-course-name" contenteditable="true">Nome do Curso ou Certificação</span>
+              <span class="cv-course-inst" contenteditable="true">Instituição · Plataforma</span>
+            </div>
+            <span class="cv-course-year" contenteditable="true">Ano</span>
+          </div>
+        </div>
+
+      </div>
+      <div class="dyn-add-row">
+        <button class="dyn-add-btn" onclick="addCourse()">+ Curso</button>
+      </div>
+    </section>
+
+  </div><!-- /cv -->
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <span class="toolbar-hint">✏️ Clique para editar &nbsp;·&nbsp; Passe o mouse para + / ×</span>
+    <button class="btn btn-save" onclick="saveAll()">💾 Salvar</button>
+    <button class="btn btn-print" onclick="window.print()">🖨 Imprimir / PDF</button>
+    <button class="btn btn-reset" onclick="resetAll()">↺ Restaurar original</button>
+  </div>
+
+  <script src="assets/js/ats.js"></script>
+</body>
+
+</html>
